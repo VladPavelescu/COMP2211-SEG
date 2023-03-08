@@ -4,4 +4,6 @@ module uk.ac.soton.comp2211 {
   requires java.sql;
   requires javafx.fxml;
   exports uk.ac.soton.comp2211;
+
+  opens uk.ac.soton.comp2211.controllers to javafx.fxml;
 }

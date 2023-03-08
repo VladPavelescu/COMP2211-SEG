@@ -15,7 +15,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class LineGraphController implements Initializable {
+public class DashboardController implements Initializable {
 
     @FXML
     private LineChart<String, Number> lineGraph;

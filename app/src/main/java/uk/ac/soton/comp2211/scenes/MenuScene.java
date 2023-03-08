@@ -2,7 +2,11 @@ package uk.ac.soton.comp2211.scenes;
 
 import java.io.File;
 import java.util.Arrays;
+
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -11,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp2211.App;
@@ -91,5 +96,13 @@ public class MenuScene extends BaseScene {
       String[] result = SQLExecutor.executeSQL();
       System.out.println(Arrays.toString(result));
     });
+
+    var tempButton = new Button("Go to Graph");
+    tempButton.getStyleClass().add("menu-item");
+    hbox.getChildren().add(tempButton);
+    tempButton.setOnAction(e -> {
+      appWindow.startDashboard();
+    });
+
   }
 }

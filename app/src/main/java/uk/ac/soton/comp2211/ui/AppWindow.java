@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp2211.App;
 import uk.ac.soton.comp2211.scenes.BaseScene;
+import uk.ac.soton.comp2211.scenes.DashboardScene;
 import uk.ac.soton.comp2211.scenes.MenuScene;
 
 public class AppWindow {
@@ -51,11 +52,16 @@ public class AppWindow {
   }
 
   /**
+   * Loads the dashboard scene
+   */
+  public void startDashboard(){ loadScene(new DashboardScene(this));}
+
+  /**
    * Load a given scene which extends BaseScene and switch over.
    *
    * @param newScene new scene to load
    */
-  private void loadScene(BaseScene newScene) {
+  public void loadScene(BaseScene newScene) {
     //Create the new scene and set it up
     newScene.build();
     currentScene = newScene;
