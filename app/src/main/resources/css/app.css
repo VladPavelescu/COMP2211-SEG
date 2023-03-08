@@ -1,0 +1,25 @@
+.menu-background {
+  -fx-background-color: #b3fceb;
+  -fx-background-size: cover;
+}
+
+.gamepane {
+    -fx-background-color: black;
+}
+
+.menu-item {
+  -fx-background-color:grey;
+  -fx-text-fill: black;
+  -fx-font-size: 20px;
+  -fx-font-weight: 700;
+  -fx-border-radius: 10px;
+}
+
+.menu-item:hover {
+  -fx-text-fill: white;
+}
+
+.label {
+  -fx-font-size: 24px;
+  -fx-font-weight: 700;
+}
