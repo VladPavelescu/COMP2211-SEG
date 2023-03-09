@@ -1,22 +1,39 @@
 package uk.ac.soton.comp2211.logic;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import uk.ac.soton.comp2211.utility.Utility;
 
 public class SQLExecutor {
 
-  public static String[] executeSQL() {
-    String scriptPath = Utility.cleanURL(
-        SQLExecutor.class.getResource("/sql/bounceRate.sql").getPath()); //placeholder while testing
+  /**
+   * Generate a range of dates given a start date and an end date
+   * @param startDate The lower bound of the date range
+   * @param endDate The upper bound of the date range
+   * @return A list containing all the dates within the range
+   */
+  public static List<LocalDate> getDates(String startDate, String endDate) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    LocalDate start = LocalDate.parse(startDate, formatter);
+    LocalDate end = LocalDate.parse(endDate, formatter);
+    return start.datesUntil(end).collect(Collectors.toList());
+  }
+
+  /**
+   * Executes an SQL query to retrieve a given metric on a specific date
+   * @param date The date for the metric query
+   * @param metric The name of the metric (e.g. CPA, CPC, CPM)
+   * @return A list with the results of the queries
+   */
+  public static String[] executeSQL(String date, String metric) {
 
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
         SQLExecutor.class.getResource("/db/logDatabase.db").getPath());
@@ -30,8 +47,7 @@ public class SQLExecutor {
       Connection connection = DriverManager.getConnection(jdbcUrl);
 
       // Read the SQL script from a file
-      String sqlScript = new String(Files.readAllBytes(Paths.get(scriptPath)),
-          StandardCharsets.UTF_8);
+      String sqlScript = SQLGenerator.getSQLQuery(date, metric);
 
       // Split the SQL script into individual queries
       String[] queries = sqlScript.split(";");
@@ -69,6 +85,7 @@ public class SQLExecutor {
     } catch (Exception e) {
       e.printStackTrace();
     }
+
     return resultList.toArray(new String[0]);
   }
 }
