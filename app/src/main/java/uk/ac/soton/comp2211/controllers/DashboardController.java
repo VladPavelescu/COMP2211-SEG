@@ -19,6 +19,7 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.soton.comp2211.logic.SQLExecutor;
@@ -91,10 +92,51 @@ public class DashboardController implements Initializable {
     //selects all the checkboxes that control the metrics
     for (Node node : metricsVBox.getChildren()) {
       if (node instanceof CheckBox) {
-        allMetrics.add((CheckBox) node);
+        CheckBox checkBox = (CheckBox) node;
+        allMetrics.add(checkBox);
+        Tooltip tooltip = new Tooltip();
+        String text = ""; // Replace with the text you want to display
+        switch (checkBox.getId()) {
+          case "bounceCountCheckbox":
+            text = "This is the tooltip for Bounce Count Checkbox.";
+            break;
+          case "bounceRateCheckbox":
+            text = "This is the tooltip for Bounce Rate Checkbox.";
+            break;
+          case "clickCountCheckbox":
+            text = "This is the tooltip for Click Count Checkbox.";
+            break;
+          case "conversionCountCheckbox":
+            text = "This is the tooltip for Conversion Count Checkbox.";
+            break;
+          case "cpaCheckbox":
+            text = "This is the tooltip for CPA Checkbox.";
+            break;
+          case "cpcCheckbox":
+            text = "This is the tooltip for CPC Checkbox.";
+            break;
+          case "cpmCheckbox":
+            text = "This is the tooltip for CPM Checkbox.";
+            break;
+          case "ctrCheckbox":
+            text = "This is the tooltip for CTR Checkbox.";
+            break;
+          case "impressionNumberCheckbox":
+            text = "This is the tooltip for Impression Number Checkbox.";
+            break;
+          case "totalCostCheckbox":
+            text = "This is the tooltip for Total Cost Checkbox.";
+            break;
+          case "uniquesCountCheckbox":
+            text = "This is the tooltip for Uniques Count Checkbox.";
+            break;
+        }
+        tooltip.setText(text);
+        Tooltip.install(checkBox, tooltip);
       }
     }
   }
+
 
   @FXML
   private ArrayList<String> updateMetrics() {
