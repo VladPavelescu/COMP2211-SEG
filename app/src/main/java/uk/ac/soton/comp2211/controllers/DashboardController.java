@@ -131,6 +131,7 @@ public class DashboardController implements Initializable {
             text = "This is the tooltip for Uniques Count Checkbox.";
             break;
         }
+
         tooltip.setText(text);
         Tooltip.install(checkBox, tooltip);
       }
