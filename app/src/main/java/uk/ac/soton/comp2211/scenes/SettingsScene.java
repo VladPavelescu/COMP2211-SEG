@@ -23,6 +23,12 @@ public class SettingsScene extends BaseScene{
   @Override
   public void initialise() {
 
+    root.getScene().setOnKeyPressed(keyEvent -> {
+      if (keyEvent.getCode() == KeyCode.ESCAPE) {
+        appWindow.startMenu();
+      }
+    });
+
   }
 
   @Override

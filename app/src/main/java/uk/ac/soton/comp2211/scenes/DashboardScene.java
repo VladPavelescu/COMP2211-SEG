@@ -1,6 +1,7 @@
 package uk.ac.soton.comp2211.scenes;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
@@ -13,6 +14,12 @@ public class DashboardScene extends BaseScene {
 
     @Override
     public void initialise() {
+
+        root.getScene().setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                appWindow.startMenu();
+            }
+        });
 
     }
 
