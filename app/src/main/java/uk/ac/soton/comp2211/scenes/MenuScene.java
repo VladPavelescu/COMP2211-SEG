@@ -75,7 +75,6 @@ public class MenuScene extends BaseScene {
 
     //
     var loadFileButton = new Button("Upload log files");
-    loadFileButton.getStyleClass().add("menu-item");
     hbox.getChildren().add(loadFileButton);
     loadFileButton.setOnAction(e -> {
       File selectedFile = fileChooser.showOpenDialog(appWindow.getScene().getWindow());
@@ -86,14 +85,12 @@ public class MenuScene extends BaseScene {
     });
 
     var tempButton = new Button("Go to Graph");
-    tempButton.getStyleClass().add("menu-item");
     hbox.getChildren().add(tempButton);
     tempButton.setOnAction(e -> {
       appWindow.startDashboard();
     });
 
     var settingsButton = new Button("Settings");
-    settingsButton.getStyleClass().add("menu-item");
     hbox.getChildren().add(settingsButton);
     settingsButton.setOnAction(e -> {
       appWindow.startSettingsScene();
