@@ -85,9 +85,6 @@ public class DashboardController implements Initializable {
 
   private ArrayList<CheckBox> allMetrics = new ArrayList<>();
 
-  @FXML
-  private Label hoverVal;
-
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     start_date.setValue(LocalDate.of(2015,1,1));
