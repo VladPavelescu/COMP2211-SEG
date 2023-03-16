@@ -1,5 +1,6 @@
 package uk.ac.soton.comp2211.scenes;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -59,10 +60,23 @@ public class SettingsScene extends BaseScene{
     var backgroundButton = new Button("Change Background");
     backgroundButton.getStyleClass().add("heading");
 
+    //Create dark mode button
+    var darkModeButton = new Button("Dark Mode");
+    darkModeButton.getStyleClass().add("heading");
+
     //Display buttons
-    menuButtons.getChildren().addAll(fontButton, fontSizeButton, backgroundButton);
+    menuButtons.getChildren().addAll(fontButton, fontSizeButton, backgroundButton, darkModeButton);
     menuButtons.setAlignment(Pos.CENTER);
     root.getChildren().add(menuButtons);
+
+    darkModeButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent e) {
+        scene.getStylesheets().clear();
+        scene.setUserAgentStylesheet(null);
+        scene.getStylesheets().add(getClass().getResource("/css/darkTheme.css").toExternalForm());
+      }
+    });
+
 
   }
 

@@ -21,6 +21,7 @@
 
 .button{
     -fx-focus-traversable: false;
+    -fx-pref-width: 200px;
 }
 
 .button:hover{
