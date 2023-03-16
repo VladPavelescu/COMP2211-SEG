@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,11 +17,11 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import uk.ac.soton.comp2211.logic.SQLExecutor;
 
@@ -83,6 +84,9 @@ public class DashboardController implements Initializable {
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
   private ArrayList<CheckBox> allMetrics = new ArrayList<>();
+
+  @FXML
+  private Label hoverVal;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -170,6 +174,13 @@ public class DashboardController implements Initializable {
         series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
       }
       lineGraph.getData().add(series);
+
+      for (XYChart.Data<String,Number> data : series.getData()){
+        data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+          Tooltip.install(data.getNode(),new Tooltip(data.getXValue() + ", " + data.getYValue().toString()));
+        });
+      }
+
     }
 
 //    //sample data
