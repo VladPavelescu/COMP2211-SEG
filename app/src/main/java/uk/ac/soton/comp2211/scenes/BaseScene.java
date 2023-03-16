@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
+import uk.ac.soton.comp2211.utility.ThemeManager;
 
 /**
  * A Base Scene used in the game. Handles common functionality between all scenes.
@@ -40,8 +41,9 @@ public abstract class BaseScene {
   public Scene setScene() {
     var previous = appWindow.getScene();
     Scene scene = new Scene(root, previous.getWidth(), previous.getHeight(), Color.BLACK);
-    scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
+//    scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
     this.scene = scene;
+    ThemeManager.setTheme(scene);
     return scene;
   }
 

@@ -1,18 +1,13 @@
 package uk.ac.soton.comp2211.scenes;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
+import uk.ac.soton.comp2211.utility.ThemeManager;
 
 public class SettingsScene extends BaseScene{
 
@@ -69,11 +64,11 @@ public class SettingsScene extends BaseScene{
     menuButtons.setAlignment(Pos.CENTER);
     root.getChildren().add(menuButtons);
 
-    darkModeButton.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent e) {
-        scene.getStylesheets().clear();
-        scene.setUserAgentStylesheet(null);
-        scene.getStylesheets().add(getClass().getResource("/css/darkTheme.css").toExternalForm());
+    darkModeButton.setOnAction(event -> {
+      if (ThemeManager.isDarkThemeEnabled()) {
+        ThemeManager.enableLightTheme(scene);
+      } else {
+        ThemeManager.enableDarkTheme(scene);
       }
     });
 
