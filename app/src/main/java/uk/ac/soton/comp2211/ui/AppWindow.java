@@ -11,6 +11,7 @@ import uk.ac.soton.comp2211.App;
 import uk.ac.soton.comp2211.scenes.BaseScene;
 import uk.ac.soton.comp2211.scenes.DashboardScene;
 import uk.ac.soton.comp2211.scenes.MenuScene;
+import uk.ac.soton.comp2211.scenes.SettingsScene;
 
 public class AppWindow {
 
@@ -55,6 +56,11 @@ public class AppWindow {
    * Loads the dashboard scene
    */
   public void startDashboard(){ loadScene(new DashboardScene(this));}
+
+  /**
+   * Loads the settings scene
+   */
+  public void startSettingsScene(){ loadScene(new SettingsScene(this));}
 
   /**
    * Load a given scene which extends BaseScene and switch over.

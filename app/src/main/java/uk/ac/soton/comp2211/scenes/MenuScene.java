@@ -92,5 +92,12 @@ public class MenuScene extends BaseScene {
       appWindow.startDashboard();
     });
 
+    var settingsButton = new Button("Settings");
+    settingsButton.getStyleClass().add("menu-item");
+    hbox.getChildren().add(settingsButton);
+    settingsButton.setOnAction(e -> {
+      appWindow.startSettingsScene();
+    });
+
   }
 }
