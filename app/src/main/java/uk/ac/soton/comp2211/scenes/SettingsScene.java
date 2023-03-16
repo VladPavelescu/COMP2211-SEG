@@ -2,10 +2,14 @@ package uk.ac.soton.comp2211.scenes;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
 
@@ -40,6 +44,25 @@ public class SettingsScene extends BaseScene{
     stackPane.setMaxHeight(appWindow.getHeight());
     stackPane.getStyleClass().add("menu-background");
     root.getChildren().add(stackPane);
+
+    var menuButtons = new VBox();
+
+    //Create font button
+    var fontButton = new Button("Font");
+    fontButton.getStyleClass().add("heading");
+
+    //Create font size button
+    var fontSizeButton = new Button("Font Size");
+    fontSizeButton.getStyleClass().add("heading");
+
+    //Create background changer button
+    var backgroundButton = new Button("Change Background");
+    backgroundButton.getStyleClass().add("heading");
+
+    //Display buttons
+    menuButtons.getChildren().addAll(fontButton, fontSizeButton, backgroundButton);
+    menuButtons.setAlignment(Pos.CENTER);
+    root.getChildren().add(menuButtons);
 
   }
 

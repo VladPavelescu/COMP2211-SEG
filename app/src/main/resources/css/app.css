@@ -23,3 +23,7 @@
   -fx-font-size: 24px;
   -fx-font-weight: 700;
 }
+
+.button {
+    -fx-pref-width: 200px;
+}
