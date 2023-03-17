@@ -96,42 +96,20 @@ public class DashboardController implements Initializable {
         CheckBox checkBox = (CheckBox) node;
         allMetrics.add(checkBox);
         Tooltip tooltip = new Tooltip();
-        String text = ""; // Replace with the text you want to display
-        switch (checkBox.getId()) {
-          case "bounceCountCheckbox":
-            text = "This is the tooltip for Bounce Count Checkbox.";
-            break;
-          case "bounceRateCheckbox":
-            text = "This is the tooltip for Bounce Rate Checkbox.";
-            break;
-          case "clickCountCheckbox":
-            text = "This is the tooltip for Click Count Checkbox.";
-            break;
-          case "conversionCountCheckbox":
-            text = "This is the tooltip for Conversion Count Checkbox.";
-            break;
-          case "cpaCheckbox":
-            text = "This is the tooltip for CPA Checkbox.";
-            break;
-          case "cpcCheckbox":
-            text = "This is the tooltip for CPC Checkbox.";
-            break;
-          case "cpmCheckbox":
-            text = "This is the tooltip for CPM Checkbox.";
-            break;
-          case "ctrCheckbox":
-            text = "This is the tooltip for CTR Checkbox.";
-            break;
-          case "impressionNumberCheckbox":
-            text = "This is the tooltip for Impression Number Checkbox.";
-            break;
-          case "totalCostCheckbox":
-            text = "This is the tooltip for Total Cost Checkbox.";
-            break;
-          case "uniquesCountCheckbox":
-            text = "This is the tooltip for Uniques Count Checkbox.";
-            break;
-        }
+        String text = switch (checkBox.getId()) {
+          case "bounceCountCheckbox" -> "The number of single-page visits without any further action.";
+          case "bounceRateCheckbox" -> "The percentage of single-page visits divided by the total number of sessions.";
+          case "clickCountCheckbox" -> "The total number of times users clicked on an advertisement.";
+          case "conversionCountCheckbox" -> "The total number of desired actions completed by users after clicking on an advertisement.";
+          case "cpaCheckbox" -> "(Cost per Action): The average cost an advertiser pays for each desired action (e.g., a purchase or signup) completed.";
+          case "cpcCheckbox" -> "(Cost per Click): The average cost an advertiser pays for each click on an advertisement.";
+          case "cpmCheckbox" -> "(Cost per Mille): The cost an advertiser pays for one thousand views (impressions) of an advertisement.";
+          case "ctrCheckbox" -> "(Click-Through Rate): The percentage of ad impressions that result in clicks, calculated as clicks divided by impressions.";
+          case "impressionNumberCheckbox" -> "The total number of times an advertisement has been displayed.";
+          case "totalCostCheckbox" -> "The cumulative cost of an advertising campaign.";
+          case "uniquesCountCheckbox" -> "The number of unique visitors who have viewed an advertisement.";
+          default -> ""; // Replace with the text you want to display
+        };
 
         tooltip.setText(text);
         Tooltip.install(checkBox, tooltip);
