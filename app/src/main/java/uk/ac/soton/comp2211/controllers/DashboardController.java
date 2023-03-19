@@ -4,8 +4,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,17 +15,20 @@ import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import uk.ac.soton.comp2211.logic.SQLExecutor;
 
 public class DashboardController implements Initializable {
+
+  @FXML
+  private StackPane stackPane;
 
   @FXML
   private LineChart<String, Number> lineGraph;
@@ -46,37 +49,7 @@ public class DashboardController implements Initializable {
   private DatePicker end_date;
 
   @FXML
-  private CheckBox bounceCountCheckbox;
-
-  @FXML
-  private CheckBox bounceRateCheckbox;
-
-  @FXML
-  private CheckBox clickCountCheckbox;
-
-  @FXML
-  private CheckBox conversionCountCheckbox;
-
-  @FXML
-  private CheckBox cpaCheckbox;
-
-  @FXML
-  private CheckBox cpcCheckbox;
-
-  @FXML
-  private CheckBox cpmCheckbox;
-
-  @FXML
-  private CheckBox ctrCheckbox;
-
-  @FXML
-  private CheckBox impressionNumberCheckbox;
-
-  @FXML
-  private CheckBox totalCostCheckbox;
-
-  @FXML
-  private CheckBox uniquesCountCheckbox;
+  public Button backButton;
 
   @FXML
   private VBox metricsVBox;
@@ -87,8 +60,12 @@ public class DashboardController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    start_date.setValue(LocalDate.of(2015,1,1));
-    end_date.setValue(LocalDate.of(2015,1,14));
+    start_date.setValue(LocalDate.of(2015, 1, 1));
+    end_date.setValue(LocalDate.of(2015, 1, 14));
+
+    //Update graph when date is updated
+    start_date.setOnAction(e -> loadData());
+    end_date.setOnAction(e -> loadData());
 
     //selects all the checkboxes that control the metrics
     for (Node node : metricsVBox.getChildren()) {
@@ -117,9 +94,8 @@ public class DashboardController implements Initializable {
     }
   }
 
-
   @FXML
-  private ArrayList<String> updateMetrics() {
+  private void updateMetrics() {
 
     metricsSelected.clear();
 
@@ -130,44 +106,60 @@ public class DashboardController implements Initializable {
     }
 
     loadData();
-
-    return metricsSelected;
   }
 
-  public void loadData() {
+  private void loadData() {
     lineGraph.getData().clear();
 
-    var dates = SQLExecutor.getDates(start_date.getValue().toString(),end_date.getValue().toString());
+    //Create loading indicator
+    ProgressIndicator progressIndicator = new ProgressIndicator(-1);
+    stackPane.getChildren().add(progressIndicator);
+    progressIndicator.setMaxSize(stackPane.getWidth()/4,stackPane.getWidth()/4);
 
 
-    for (String metric : metricsSelected) {
-      XYChart.Series<String, Number> series = new XYChart.Series<>();
-      series.setName(metric);
+    //Disable the metrics and dates while the thread is still working in the background
+    allMetrics.forEach(c -> c.setDisable(true));
+    start_date.setDisable(true);
+    end_date.setDisable(true);
 
-      for (LocalDate date : dates) {
-        var value = SQLExecutor.executeSQL(date.toString(), metric)[0];
-        series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
+    // Run the calculations on a background thread to keep the application responsive
+    new Thread(() -> {
+      var dates = SQLExecutor.getDates(start_date.getValue().toString(),
+          end_date.getValue().toString());
+
+      for (String metric : metricsSelected) {
+        Series<String, Number> series = new Series<>();
+        series.setName(metric);
+
+        for (LocalDate date : dates) {
+          var value = SQLExecutor.executeSQL(date.toString(), metric)[0].trim();
+          if (!value.equals("null")) {
+            series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
+          }
+        }
+
+        // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+        Platform.runLater(() -> lineGraph.getData().add(series));
+
+        for (Data<String, Number> data : series.getData()) {
+          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+          Platform.runLater(
+              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                Tooltip.install(data.getNode(),
+                    new Tooltip(data.getXValue() + ", " + data.getYValue().toString()));
+              }));
+
+        }
       }
-      lineGraph.getData().add(series);
 
-      for (XYChart.Data<String,Number> data : series.getData()){
-        data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-          Tooltip.install(data.getNode(),new Tooltip(data.getXValue() + ", " + data.getYValue().toString()));
-        });
-      }
-
-    }
-
-//    //sample data
-//    XYChart.Series<String, Number> impressions = new XYChart.Series<>();
-//    impressions.setName("Impressions");
-//    impressions.getData().add(new XYChart.Data<>("2022-01-01", 10));
-//    impressions.getData().add(new XYChart.Data<>("2022-02-02", 3));
-//    impressions.getData().add(new XYChart.Data<>("2022-03-03", 14));
-//    impressions.getData().add(new XYChart.Data<>("2022-04-04", 222));
-//    impressions.getData().add(new XYChart.Data<>("2022-05-05", 4));
-//    lineGraph.getData().addAll(impressions, clicks);
-
+      // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+      Platform.runLater(() -> {
+        stackPane.getChildren().remove(progressIndicator);
+        allMetrics.forEach(c -> c.setDisable(false));
+        start_date.setDisable(false);
+        end_date.setDisable(false);
+      });
+    }).start();
   }
 
   @FXML
@@ -179,7 +171,6 @@ public class DashboardController implements Initializable {
   }
 
   private void openHistogram() {
-
     try {
       FXMLLoader newPane = new FXMLLoader(getClass().getResource("/fxml/Histogram.fxml"));
       Parent root1 = newPane.load();

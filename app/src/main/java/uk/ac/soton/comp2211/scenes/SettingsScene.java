@@ -9,7 +9,7 @@ import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
 import uk.ac.soton.comp2211.utility.ThemeManager;
 
-public class SettingsScene extends BaseScene{
+public class SettingsScene extends BaseScene {
 
   /**
    * Create a new scene, passing in the AppWindow the scene will be displayed in
@@ -42,6 +42,7 @@ public class SettingsScene extends BaseScene{
     root.getChildren().add(stackPane);
 
     var menuButtons = new VBox();
+    menuButtons.setSpacing(20);
 
     //Create font button
     var fontButton = new Button("Font");
@@ -59,10 +60,16 @@ public class SettingsScene extends BaseScene{
     var darkModeButton = new Button("Dark Mode");
     darkModeButton.getStyleClass().add("heading");
 
+    //Create back button
+    var backButton = new Button("Back");
+    backButton.getStyleClass().add("heading");
+    backButton.setOnAction(e -> appWindow.startMenu());
+
     //Display buttons
-    menuButtons.getChildren().addAll(fontButton, fontSizeButton, backgroundButton, darkModeButton);
+    menuButtons.getChildren()
+        .addAll(fontButton, fontSizeButton, backgroundButton, darkModeButton, backButton);
     menuButtons.setAlignment(Pos.CENTER);
-    root.getChildren().add(menuButtons);
+    stackPane.getChildren().add(menuButtons);
 
     darkModeButton.setOnAction(event -> {
       if (ThemeManager.isDarkThemeEnabled()) {
@@ -71,9 +78,5 @@ public class SettingsScene extends BaseScene{
         ThemeManager.enableDarkTheme(scene);
       }
     });
-
-
   }
-
-
 }
