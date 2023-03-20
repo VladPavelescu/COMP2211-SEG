@@ -46,4 +46,10 @@
     -fx-text-fill: #D6C49E;
 }
 
-.scroll-pane > .viewport  { -fx-background-color: #303030; }
+.scroll-pane {
+   -fx-background-color:transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}

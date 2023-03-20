@@ -1,9 +1,11 @@
 package uk.ac.soton.comp2211.scenes;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -51,12 +53,13 @@ public class SettingsScene extends BaseScene{
     root.getChildren().add(stackPane);
 
     var menuButtons = new VBox();
+    var menuButtonsBack = new VBox();
 
     var fontSizeText = new Label("Set Font Size:");
     var defaultFontButton = new Button("Default");
     var bigFontButton = new Button("Big");
+    var backButton = new Button("Back");
     var fontButtons = new HBox();
-    //fontSizeText.getStyleClass().add("heading");
     fontSizeText.setTextAlignment(TextAlignment.CENTER);
     fontButtons.getChildren().addAll(defaultFontButton, bigFontButton);
     fontButtons.setAlignment(Pos.CENTER);
@@ -73,13 +76,23 @@ public class SettingsScene extends BaseScene{
     themeButtons.setAlignment(Pos.CENTER);
     themeButtons.setSpacing(10);
 
+
     //Display buttons
     menuButtons.getChildren().addAll(fontSizeText, fontButtons, themeLabel, themeButtons);
     menuButtons.setAlignment(Pos.CENTER);
-    menuButtons.setMaxWidth(appWindow.getWidth());
-    menuButtons.setMaxHeight(appWindow.getHeight());
     menuButtons.setSpacing(10);
-    stackPane.getChildren().add(menuButtons);
+
+    menuButtonsBack.getChildren().addAll(menuButtons, backButton);
+    menuButtonsBack.setAlignment(Pos.CENTER);
+    menuButtonsBack.setMaxWidth(appWindow.getWidth());
+    menuButtonsBack.setMaxHeight(appWindow.getHeight());
+    menuButtonsBack.setSpacing(150);
+
+    stackPane.getChildren().addAll(menuButtonsBack);
+
+    backButton.setOnAction(event -> {
+      appWindow.startMenu();
+    });
 
     defaultFontButton.setOnAction(event -> {
       if(SettingsManager.isBigFontEnabled()) {
