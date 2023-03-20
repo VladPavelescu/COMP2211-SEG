@@ -1,6 +1,7 @@
 package uk.ac.soton.comp2211;
 
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,7 +45,6 @@ public class App extends Application {
     public void start(Stage stage) {
         instance = this;
         this.stage = stage;
-
         //Open game window
         openApp();
     }
@@ -57,7 +57,6 @@ public class App extends Application {
 
         //Change the width and height in this class to change the base rendering resolution for all game parts
         var appWindow = new AppWindow(stage,width,height);
-
         //Display the AppWindow
         stage.show();
     }
