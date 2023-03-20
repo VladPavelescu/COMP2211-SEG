@@ -36,3 +36,5 @@
 .button:hover{
     -fx-text-fill: white;
 }
+
+.scroll-pane > .viewport  { -fx-background-color: #96C3D7; }
