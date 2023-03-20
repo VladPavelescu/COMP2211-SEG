@@ -70,6 +70,19 @@ public class DashboardController implements Initializable {
       loadData();
     });
 
+    // Alternative in Histogram.fxml
+    //scrollPane = new ScrollPane();
+    //scrollPane.setFitToWidth(true);
+    //scrollPane.setPrefViewportWidth(175); // Set the preferred width of the scrollpane
+    //scrollPane.setContent(metricsVBox);
+    //anchorPane = new AnchorPane();
+    //anchorPane.getChildren().add(scrollPane);
+    //AnchorPane.setBottomAnchor(scrollPane, 0.0);
+    //AnchorPane.setLeftAnchor(scrollPane, 0.0);
+    //AnchorPane.setBottomAnchor(scrollPane, 0.0);
+
+    //stackPane.getChildren().add(anchorPane);
+
     //selects all the checkboxes that control the metrics
     for (Node node : metricsVBox.getChildren()) {
       if (node instanceof CheckBox checkBox) {
