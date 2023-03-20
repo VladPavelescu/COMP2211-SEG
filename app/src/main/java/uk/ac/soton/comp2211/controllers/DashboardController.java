@@ -47,6 +47,9 @@ public class DashboardController implements Initializable {
   @FXML
   private VBox metricsVBox;
 
+  @FXML
+  private ScrollPane metricsScrollPane;
+
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
   private ArrayList<CheckBox> allMetrics = new ArrayList<>();
@@ -59,6 +62,8 @@ public class DashboardController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     start_date.setValue(LocalDate.of(2015, 1, 1));
     end_date.setValue(LocalDate.of(2015, 1, 14));
+
+    metricsScrollPane.getStyleClass().add("scroll-pane");
 
     //Update graph when date is updated
     start_date.setOnAction(e -> {
