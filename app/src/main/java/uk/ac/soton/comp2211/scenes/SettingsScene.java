@@ -47,8 +47,8 @@ public class SettingsScene extends BaseScene{
     var menuButtons = new VBox();
 
     var fontSizeText = new Label("Set Font Size:");
-    var defaultFontButton = new Button("Default Font");
-    var bigFontButton = new Button("Big Font");
+    var defaultFontButton = new Button("Default");
+    var bigFontButton = new Button("Big");
     var fontButtons = new HBox();
     //fontSizeText.getStyleClass().add("heading");
     fontSizeText.setTextAlignment(TextAlignment.CENTER);
@@ -57,9 +57,9 @@ public class SettingsScene extends BaseScene{
     fontButtons.setSpacing(10);
 
     var themeLabel = new Label("Set Theme:");
-    var defaultTheme = new Button("Default Theme");
-    var darkTheme = new Button("Dark Theme");
-    var lightTheme = new Button("Light Theme");
+    var defaultTheme = new Button("Default");
+    var darkTheme = new Button("Dark");
+    var lightTheme = new Button("Light");
     var themeButtons = new HBox();
     themeLabel.getStyleClass().add("heading");
     themeLabel.setTextAlignment(TextAlignment.CENTER);
