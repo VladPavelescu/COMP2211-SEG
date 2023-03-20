@@ -1,5 +1,7 @@
 package uk.ac.soton.comp2211.controllers;
 
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -54,6 +56,10 @@ public class DashboardController implements Initializable {
   @FXML
   private VBox metricsVBox;
 
+  private ScrollPane scrollPane;
+
+  private AnchorPane anchorPane;
+
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
   private ArrayList<CheckBox> allMetrics = new ArrayList<>();
@@ -66,6 +72,18 @@ public class DashboardController implements Initializable {
     //Update graph when date is updated
     start_date.setOnAction(e -> loadData());
     end_date.setOnAction(e -> loadData());
+
+    scrollPane = new ScrollPane();
+    scrollPane.setFitToWidth(true);
+    scrollPane.setPrefViewportWidth(175); // Set the preferred width of the scrollpane
+    scrollPane.setContent(metricsVBox);
+    anchorPane = new AnchorPane();
+    anchorPane.getChildren().add(scrollPane);
+    AnchorPane.setBottomAnchor(scrollPane, 0.0);
+    AnchorPane.setLeftAnchor(scrollPane, 0.0);
+    AnchorPane.setBottomAnchor(scrollPane, 0.0);
+
+    stackPane.getChildren().add(anchorPane);
 
     //selects all the checkboxes that control the metrics
     for (Node node : metricsVBox.getChildren()) {
