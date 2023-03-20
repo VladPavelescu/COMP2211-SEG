@@ -11,10 +11,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -68,6 +71,12 @@ public class MenuScene extends BaseScene {
     var fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().add(new ExtensionFilter("CSV files", "*.csv"));
 
+    final ImageView selectedImage = new ImageView();
+    selectedImage.setFitHeight(200);
+    selectedImage.setFitWidth(200);
+    Image image = new Image(MenuScene.class.getResource("/img/logo2.jpg").toExternalForm());
+    selectedImage.setImage(image);
+
     //placeholder label for the app
     var label = new Label("Ad Auction Dashboard");
     mainPane.setTop(label);
@@ -79,6 +88,15 @@ public class MenuScene extends BaseScene {
     BorderPane.setAlignment(hbox, Pos.CENTER);
     hbox.setAlignment(Pos.CENTER);
     hbox.setSpacing(10);
+
+    //VBox for the logo and buttons
+    var vbox = new VBox();
+    mainPane.setCenter(vbox);
+    BorderPane.setAlignment(vbox, Pos.CENTER);
+    vbox.setAlignment(Pos.CENTER);
+    vbox.setSpacing(100);
+
+    vbox.getChildren().addAll(selectedImage, hbox);
 
     //
     var loadFileButton = new Button("Upload log files");
