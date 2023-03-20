@@ -2,6 +2,7 @@ package uk.ac.soton.comp2211;
 
 import javafx.application.Application;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,6 +46,10 @@ public class App extends Application {
     public void start(Stage stage) {
         instance = this;
         this.stage = stage;
+        //Application icon
+        Image image = new Image(MenuScene.class.getResource("/img/logo1.jpg").toExternalForm());
+        stage.getIcons().add(image);
+
         //Open game window
         openApp();
     }
