@@ -111,9 +111,9 @@ public class MenuScene extends BaseScene {
       }
     });
 
-    var tempButton = new Button("Go to Graph");
-    hbox.getChildren().add(tempButton);
-    tempButton.setOnAction(e -> {
+    var graphButton = new Button("Go to Graph");
+    hbox.getChildren().add(graphButton);
+    graphButton.setOnAction(e -> {
       appWindow.startDashboard();
     });
 

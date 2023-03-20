@@ -71,8 +71,7 @@ public class SettingsScene extends BaseScene{
     menuButtons.getChildren().addAll(fontSizeText, fontButtons, themeLabel, themeButtons);
     menuButtons.setAlignment(Pos.CENTER);
     menuButtons.setSpacing(10);
-    root.setAlignment(Pos.CENTER);
-    root.getChildren().add(menuButtons);
+    stackPane.getChildren().add(menuButtons);
 
     defaultFontButton.setOnAction(event -> {
       if(SettingsManager.isBigFontEnabled()) {

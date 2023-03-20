@@ -14,9 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
@@ -24,7 +22,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import uk.ac.soton.comp2211.logic.SQLExecutor;
 
 public class DashboardController implements Initializable {
@@ -34,12 +31,6 @@ public class DashboardController implements Initializable {
 
   @FXML
   private LineChart<String, Number> lineGraph;
-
-  @FXML
-  private CategoryAxis x;
-
-  @FXML
-  private NumberAxis y;
 
   @FXML
   private Button costBut;
@@ -56,13 +47,13 @@ public class DashboardController implements Initializable {
   @FXML
   private VBox metricsVBox;
 
-  private ScrollPane scrollPane;
-
-  private AnchorPane anchorPane;
-
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
   private ArrayList<CheckBox> allMetrics = new ArrayList<>();
+
+  private String changedMetric;
+
+  private boolean dateChanged;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -70,26 +61,20 @@ public class DashboardController implements Initializable {
     end_date.setValue(LocalDate.of(2015, 1, 14));
 
     //Update graph when date is updated
-    start_date.setOnAction(e -> loadData());
-    end_date.setOnAction(e -> loadData());
-
-    scrollPane = new ScrollPane();
-    scrollPane.setFitToWidth(true);
-    scrollPane.setPrefViewportWidth(175); // Set the preferred width of the scrollpane
-    scrollPane.setContent(metricsVBox);
-    anchorPane = new AnchorPane();
-    anchorPane.getChildren().add(scrollPane);
-    AnchorPane.setBottomAnchor(scrollPane, 0.0);
-    AnchorPane.setLeftAnchor(scrollPane, 0.0);
-    AnchorPane.setBottomAnchor(scrollPane, 0.0);
-
-    stackPane.getChildren().add(anchorPane);
+    start_date.setOnAction(e -> {
+      dateChanged = true;
+      loadData();
+    });
+    end_date.setOnAction(e -> {
+      dateChanged = true;
+      loadData();
+    });
 
     //selects all the checkboxes that control the metrics
     for (Node node : metricsVBox.getChildren()) {
-      if (node instanceof CheckBox) {
-        CheckBox checkBox = (CheckBox) node;
+      if (node instanceof CheckBox checkBox) {
         allMetrics.add(checkBox);
+        checkBox.getStyleClass().add("checkbox");
         Tooltip tooltip = new Tooltip();
         String text = switch (checkBox.getId()) {
           case "bounceCountCheckbox" -> "The number of single-page visits without any further action.";
@@ -113,7 +98,11 @@ public class DashboardController implements Initializable {
   }
 
   @FXML
-  private void updateMetrics() {
+  private void updateMetrics(ActionEvent event) {
+
+    if (event.getSource() instanceof CheckBox checkBox) {
+      changedMetric = checkBox.getText();
+    }
 
     metricsSelected.clear();
 
@@ -127,13 +116,11 @@ public class DashboardController implements Initializable {
   }
 
   private void loadData() {
-    lineGraph.getData().clear();
 
     //Create loading indicator
     ProgressIndicator progressIndicator = new ProgressIndicator(-1);
     stackPane.getChildren().add(progressIndicator);
-    progressIndicator.setMaxSize(stackPane.getWidth()/4,stackPane.getWidth()/4);
-
+    progressIndicator.setMaxSize(stackPane.getWidth() / 4, stackPane.getWidth() / 4);
 
     //Disable the metrics and dates while the thread is still working in the background
     allMetrics.forEach(c -> c.setDisable(true));
@@ -142,15 +129,61 @@ public class DashboardController implements Initializable {
 
     // Run the calculations on a background thread to keep the application responsive
     new Thread(() -> {
+
       var dates = SQLExecutor.getDates(start_date.getValue().toString(),
           end_date.getValue().toString());
 
-      for (String metric : metricsSelected) {
+      // Update all selected metrics if the date was changed
+      if (dateChanged) {
+        dateChanged = false;
+
+        Platform.runLater(() -> lineGraph.getData().clear());
+
+        for (String metric : metricsSelected) {
+          Series<String, Number> series = new Series<>();
+          series.setName(metric);
+
+          for (LocalDate date : dates) {
+            var value = SQLExecutor.executeSQL(date.toString(), metric)[0].trim();
+            if (!value.equals("null")) {
+              series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
+            }
+          }
+
+          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+          Platform.runLater(() -> lineGraph.getData().add(series));
+
+          for (Data<String, Number> data : series.getData()) {
+            // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+            Platform.runLater(
+                () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                    event -> Tooltip.install(data.getNode(),
+                        new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+          }
+        }
+      } else {
+
+        // If the series updated is already on the graph, remove it and return
+        for (Series<String, Number> series : lineGraph.getData()) {
+          if (series.getName().equals(changedMetric)) {
+            Platform.runLater(() -> {
+              lineGraph.getData().remove(series);
+              stackPane.getChildren().remove(progressIndicator);
+              allMetrics.forEach(c -> c.setDisable(false));
+              start_date.setDisable(false);
+              end_date.setDisable(false);
+            });
+            return;
+          }
+        }
+
+        //Otherwise, create the series and add it to the graph
+
         Series<String, Number> series = new Series<>();
-        series.setName(metric);
+        series.setName(changedMetric);
 
         for (LocalDate date : dates) {
-          var value = SQLExecutor.executeSQL(date.toString(), metric)[0].trim();
+          var value = SQLExecutor.executeSQL(date.toString(), changedMetric)[0].trim();
           if (!value.equals("null")) {
             series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
           }
@@ -162,11 +195,9 @@ public class DashboardController implements Initializable {
         for (Data<String, Number> data : series.getData()) {
           // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
           Platform.runLater(
-              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                Tooltip.install(data.getNode(),
-                    new Tooltip(data.getXValue() + ", " + data.getYValue().toString()));
-              }));
-
+              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                  event -> Tooltip.install(data.getNode(),
+                      new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
         }
       }
 
