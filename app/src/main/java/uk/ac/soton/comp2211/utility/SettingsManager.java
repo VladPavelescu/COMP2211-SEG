@@ -7,11 +7,13 @@ public class SettingsManager {
   private static final String DEFAULT_THEME = ThemeManager.class.getResource("/css/app.css").toExternalForm();
   private static final String DARK_THEME = ThemeManager.class.getResource("/css/darkTheme.css").toExternalForm();
   private static final String LIGHT_THEME = ThemeManager.class.getResource("/css/lightTheme.css").toExternalForm();
+  private static final String BIG_FONT = ThemeManager.class.getResource("/css/bigFont.css").toExternalForm();
 
 
   private static boolean isDefaultThemeEnabled = true;
   private static boolean isDarkThemeEnabled = false;
   private static boolean isLightThemeEnabled = false;
+  private static boolean isBigFontEnabled = false;
 
   public static boolean isDarkThemeEnabled() {
     return isDarkThemeEnabled;
@@ -21,6 +23,9 @@ public class SettingsManager {
   }
   public static boolean isLightThemeEnabled() {
     return isLightThemeEnabled;
+  }
+  public static boolean isBigFontEnabled() {
+    return isBigFontEnabled;
   }
 
   public static void enableDefaultTheme(Scene scene) {
@@ -44,15 +49,36 @@ public class SettingsManager {
     setTheme(scene);
   }
 
+  public static void enableBigFont(Scene scene) {
+    isBigFontEnabled = true;
+    setTheme(scene);
+  }
+
+  public static void enableDefaultFont(Scene scene) {
+    isBigFontEnabled = false;
+    setTheme(scene);
+  }
+
   public static void setTheme(Scene scene) {
     scene.getStylesheets().clear();
     scene.setUserAgentStylesheet(null);
-    if (isDefaultThemeEnabled) {
-      scene.getStylesheets().add(DEFAULT_THEME);
-    } else if (isDarkThemeEnabled) {
-      scene.getStylesheets().add(DARK_THEME);
-    } else if (isLightThemeEnabled) {
-      scene.getStylesheets().add(LIGHT_THEME);
+    if(isBigFontEnabled) {
+      if (isDefaultThemeEnabled) {
+        scene.getStylesheets().addAll(DEFAULT_THEME, BIG_FONT);
+      } else if (isDarkThemeEnabled) {
+        scene.getStylesheets().addAll(DARK_THEME, BIG_FONT);
+      } else if (isLightThemeEnabled) {
+        scene.getStylesheets().addAll(LIGHT_THEME, BIG_FONT);
+      }
+    } else {
+      if (isDefaultThemeEnabled) {
+        scene.getStylesheets().add(DEFAULT_THEME);
+      } else if (isDarkThemeEnabled) {
+        scene.getStylesheets().add(DARK_THEME);
+      } else if (isLightThemeEnabled) {
+        scene.getStylesheets().add(LIGHT_THEME);
+      }
     }
+
   }
 }

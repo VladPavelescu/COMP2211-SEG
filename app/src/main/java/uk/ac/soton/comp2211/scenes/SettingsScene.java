@@ -47,12 +47,12 @@ public class SettingsScene extends BaseScene{
     var menuButtons = new VBox();
 
     var fontSizeText = new Label("Set Font Size:");
-    var mediumFontButton = new Button("Medium Font");
+    var defaultFontButton = new Button("Default Font");
     var bigFontButton = new Button("Big Font");
     var fontButtons = new HBox();
     //fontSizeText.getStyleClass().add("heading");
     fontSizeText.setTextAlignment(TextAlignment.CENTER);
-    fontButtons.getChildren().addAll(mediumFontButton,bigFontButton);
+    fontButtons.getChildren().addAll(defaultFontButton, bigFontButton);
     fontButtons.setAlignment(Pos.CENTER);
     fontButtons.setSpacing(10);
 
@@ -73,6 +73,18 @@ public class SettingsScene extends BaseScene{
     menuButtons.setSpacing(10);
     root.setAlignment(Pos.CENTER);
     root.getChildren().add(menuButtons);
+
+    defaultFontButton.setOnAction(event -> {
+      if(SettingsManager.isBigFontEnabled()) {
+        SettingsManager.enableDefaultFont(scene);
+      }
+    });
+
+    bigFontButton.setOnAction(event -> {
+      if(!SettingsManager.isBigFontEnabled()) {
+        SettingsManager.enableBigFont(scene);
+      }
+    });
 
     defaultTheme.setOnAction(event -> {
       if(!SettingsManager.isDefaultThemeEnabled()) {

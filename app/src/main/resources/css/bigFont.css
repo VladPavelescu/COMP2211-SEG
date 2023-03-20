@@ -1,3 +1,15 @@
 .root{
-    -fx-font-size: 26px;
+    -fx-font-size: 18px;
+}
+
+.button {
+    -fx-pref-width: 200px;
+    -fx-font-size: 25px;
+    -fx-font-weight: 700;
+    -fx-border-radius: 10px;
+}
+
+.label {
+  -fx-font-size: 28px;
+  -fx-font-weight: 700;
 }

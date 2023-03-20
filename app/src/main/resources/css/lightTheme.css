@@ -26,7 +26,7 @@
 }
 
 .button {
-    -fx-pref-width: 250px;
+    -fx-pref-width: 200px;
     -fx-background-color: #DBBB7D;
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 20px;
