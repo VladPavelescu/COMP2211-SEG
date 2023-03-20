@@ -45,3 +45,7 @@
 .button:hover{
     -fx-text-fill: #D6C49E;
 }
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
