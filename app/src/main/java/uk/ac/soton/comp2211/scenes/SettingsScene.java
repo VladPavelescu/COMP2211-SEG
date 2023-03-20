@@ -8,11 +8,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import uk.ac.soton.comp2211.App;
 import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
 import uk.ac.soton.comp2211.utility.SettingsManager;
 
 public class SettingsScene extends BaseScene{
+
+  private static final Logger logger = LogManager.getLogger(SettingsScene.class);
+
 
   /**
    * Create a new scene, passing in the AppWindow the scene will be displayed in
@@ -78,30 +84,35 @@ public class SettingsScene extends BaseScene{
     defaultFontButton.setOnAction(event -> {
       if(SettingsManager.isBigFontEnabled()) {
         SettingsManager.enableDefaultFont(scene);
+        logger.info("User set default font");
       }
     });
 
     bigFontButton.setOnAction(event -> {
       if(!SettingsManager.isBigFontEnabled()) {
         SettingsManager.enableBigFont(scene);
+        logger.info("User set big font");
       }
     });
 
     defaultTheme.setOnAction(event -> {
       if(!SettingsManager.isDefaultThemeEnabled()) {
         SettingsManager.enableDefaultTheme(scene);
+        logger.info("User set default theme");
       }
     });
 
     darkTheme.setOnAction(event -> {
       if(!SettingsManager.isDarkThemeEnabled()) {
         SettingsManager.enableDarkTheme(scene);
+        logger.info("User set dark theme");
       }
     });
 
     lightTheme.setOnAction(event -> {
       if(!SettingsManager.isLightThemeEnabled()) {
         SettingsManager.enableLightTheme(scene);
+        logger.info("User set light theme");
       }
     });
 
