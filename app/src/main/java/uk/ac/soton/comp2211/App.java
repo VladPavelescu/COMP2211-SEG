@@ -46,8 +46,9 @@ public class App extends Application {
     public void start(Stage stage) {
         instance = this;
         this.stage = stage;
+
         //Application icon
-        Image image = new Image(MenuScene.class.getResource("/img/logo1.jpg").toExternalForm());
+        Image image = new Image(App.class.getResource("/img/logo1.jpg").toExternalForm());
         stage.getIcons().add(image);
 
         //Open game window
