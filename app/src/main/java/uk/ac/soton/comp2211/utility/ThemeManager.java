@@ -6,6 +6,8 @@ public class ThemeManager {
 
     private static final String DARK_THEME = ThemeManager.class.getResource("/css/darkTheme.css").toExternalForm();
     private static final String LIGHT_THEME = ThemeManager.class.getResource("/css/app.css").toExternalForm();
+    private static final String BIG_FONT = ThemeManager.class.getResource("/css/bigFont.css").toExternalForm();
+
 
     private static boolean isDarkThemeEnabled = false;
 

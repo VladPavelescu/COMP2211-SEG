@@ -2,12 +2,15 @@ package uk.ac.soton.comp2211.scenes;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
-import uk.ac.soton.comp2211.utility.ThemeManager;
+import uk.ac.soton.comp2211.utility.SettingsManager;
 
 public class SettingsScene extends BaseScene{
 
@@ -43,37 +46,52 @@ public class SettingsScene extends BaseScene{
 
     var menuButtons = new VBox();
 
-    //Create font button
-    var fontButton = new Button("Font");
-    fontButton.getStyleClass().add("heading");
+    var fontSizeText = new Label("Set Font Size:");
+    var mediumFontButton = new Button("Medium Font");
+    var bigFontButton = new Button("Big Font");
+    var fontButtons = new HBox();
+    //fontSizeText.getStyleClass().add("heading");
+    fontSizeText.setTextAlignment(TextAlignment.CENTER);
+    fontButtons.getChildren().addAll(mediumFontButton,bigFontButton);
+    fontButtons.setAlignment(Pos.CENTER);
+    fontButtons.setSpacing(10);
 
-    //Create font size button
-    var fontSizeButton = new Button("Font Size");
-    fontSizeButton.getStyleClass().add("heading");
-
-    //Create background changer button
-    var backgroundButton = new Button("Change Background");
-    backgroundButton.getStyleClass().add("heading");
-
-    //Create dark mode button
-    var darkModeButton = new Button("Dark Mode");
-    darkModeButton.getStyleClass().add("heading");
+    var themeLabel = new Label("Set Theme:");
+    var defaultTheme = new Button("Default Theme");
+    var darkTheme = new Button("Dark Theme");
+    var lightTheme = new Button("Light Theme");
+    var themeButtons = new HBox();
+    themeLabel.getStyleClass().add("heading");
+    themeLabel.setTextAlignment(TextAlignment.CENTER);
+    themeButtons.getChildren().addAll(defaultTheme, darkTheme, lightTheme);
+    themeButtons.setAlignment(Pos.CENTER);
+    themeButtons.setSpacing(10);
 
     //Display buttons
-    menuButtons.getChildren().addAll(fontButton, fontSizeButton, backgroundButton, darkModeButton);
+    menuButtons.getChildren().addAll(fontSizeText, fontButtons, themeLabel, themeButtons);
     menuButtons.setAlignment(Pos.CENTER);
+    menuButtons.setSpacing(10);
+    root.setAlignment(Pos.CENTER);
     root.getChildren().add(menuButtons);
 
-    darkModeButton.setOnAction(event -> {
-      if (ThemeManager.isDarkThemeEnabled()) {
-        ThemeManager.enableLightTheme(scene);
-      } else {
-        ThemeManager.enableDarkTheme(scene);
+    defaultTheme.setOnAction(event -> {
+      if(!SettingsManager.isDefaultThemeEnabled()) {
+        SettingsManager.enableDefaultTheme(scene);
       }
     });
 
+    darkTheme.setOnAction(event -> {
+      if(!SettingsManager.isDarkThemeEnabled()) {
+        SettingsManager.enableDarkTheme(scene);
+      }
+    });
+
+    lightTheme.setOnAction(event -> {
+      if(!SettingsManager.isLightThemeEnabled()) {
+        SettingsManager.enableLightTheme(scene);
+      }
+    });
 
   }
-
 
 }
