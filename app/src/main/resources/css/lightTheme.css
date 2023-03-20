@@ -1,0 +1,39 @@
+.menu-background {
+  -fx-background-color: #FFFFFF;
+  -fx-background-size: cover;
+}
+
+.gamepane {
+    -fx-background-color: #FFFFFF;
+}
+
+.menu-item {
+  -fx-background-color:grey;
+  -fx-text-fill: #7F796C;
+  -fx-font-size: 20px;
+  -fx-font-weight: 700;
+  -fx-border-radius: 10px;
+}
+
+.menu-item:hover {
+  -fx-text-fill: white;
+}
+
+.label {
+  -fx-font-size: 24px;
+  -fx-font-weight: 700;
+  -fx-text-fill: #7F796C;
+}
+
+.button {
+    -fx-pref-width: 250px;
+    -fx-background-color: #DBBB7D;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-border-radius: 10px;
+}
+
+.button:hover{
+    -fx-text-fill: #7F796C;
+}

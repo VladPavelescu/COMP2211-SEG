@@ -1,0 +1,51 @@
+.menu-background {
+  -fx-background-color: #303030;
+  -fx-background-size: cover;
+}
+
+.gamepane {
+    -fx-background-color: #303030;
+}
+
+#metricsVBox {
+  accent-color: #FFFFFF;
+}
+
+.menu-item {
+  -fx-background-color:grey;
+  -fx-text-fill: black;
+  -fx-font-size: 20px;
+  -fx-font-weight: 700;
+  -fx-border-radius: 10px;
+}
+
+.menu-item:hover {
+  -fx-text-fill: white;
+}
+
+.label {
+  -fx-font-size: 24px;
+  -fx-font-weight: 700;
+  -fx-text-fill: #D6C49E;
+}
+
+.checkbox {
+-fx-text-fill: #FFFFFF;
+}
+
+.text {
+  -fx-text-fill: white;
+}
+
+.button {
+    -fx-pref-width: 250px;
+    -fx-background-color: #212121;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-border-radius: 10px;
+}
+
+.button:hover{
+    -fx-text-fill: #D6C49E;
+}
