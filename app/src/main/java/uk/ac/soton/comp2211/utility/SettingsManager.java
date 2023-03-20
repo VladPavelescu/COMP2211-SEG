@@ -9,7 +9,6 @@ public class SettingsManager {
   private static final String LIGHT_THEME = ThemeManager.class.getResource("/css/lightTheme.css").toExternalForm();
   private static final String BIG_FONT = ThemeManager.class.getResource("/css/bigFont.css").toExternalForm();
 
-
   private static boolean isDefaultThemeEnabled = true;
   private static boolean isDarkThemeEnabled = false;
   private static boolean isLightThemeEnabled = false;

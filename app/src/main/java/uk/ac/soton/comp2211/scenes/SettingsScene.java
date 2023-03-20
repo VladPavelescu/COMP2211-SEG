@@ -70,6 +70,8 @@ public class SettingsScene extends BaseScene{
     //Display buttons
     menuButtons.getChildren().addAll(fontSizeText, fontButtons, themeLabel, themeButtons);
     menuButtons.setAlignment(Pos.CENTER);
+    menuButtons.setMaxWidth(appWindow.getWidth());
+    menuButtons.setMaxHeight(appWindow.getHeight());
     menuButtons.setSpacing(10);
     stackPane.getChildren().add(menuButtons);
 
