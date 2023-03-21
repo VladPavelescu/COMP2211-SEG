@@ -1,18 +1,16 @@
 package uk.ac.soton.comp2211.scenes;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import uk.ac.soton.comp2211.App;
 import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
 import uk.ac.soton.comp2211.utility.SettingsManager;
@@ -54,8 +52,7 @@ public class SettingsScene extends BaseScene{
 
     var menuButtons = new VBox();
     var menuButtonsBack = new VBox();
-    
-    //Label and buttons for setting the font size
+
     var fontSizeText = new Label("Set Font Size:");
     var defaultFontButton = new Button("Default");
     var bigFontButton = new Button("Big");
@@ -65,8 +62,7 @@ public class SettingsScene extends BaseScene{
     fontButtons.getChildren().addAll(defaultFontButton, bigFontButton);
     fontButtons.setAlignment(Pos.CENTER);
     fontButtons.setSpacing(10);
-    
-    //Label and buttons for the theme
+
     var themeLabel = new Label("Set Theme:");
     var defaultTheme = new Button("Default");
     var darkTheme = new Button("Dark");
@@ -77,7 +73,7 @@ public class SettingsScene extends BaseScene{
     themeButtons.getChildren().addAll(defaultTheme, darkTheme, lightTheme);
     themeButtons.setAlignment(Pos.CENTER);
     themeButtons.setSpacing(10);
-    
+
     //Label and button for the information popup
     var infoLabel = new Label("View information");
     var infoButton = new Button("Info");
@@ -87,8 +83,9 @@ public class SettingsScene extends BaseScene{
     infoBox.getChildren().add(infoButton);
     infoBox.setAlignment(Pos.CENTER);
 
+
     //Display buttons
-    menuButtons.getChildren().addAll(fontSizeText, fontButtons, themeLabel, themeButtons);
+    menuButtons.getChildren().addAll(fontSizeText, fontButtons, themeLabel, themeButtons, infoLabel, infoBox);
     menuButtons.setAlignment(Pos.CENTER);
     menuButtons.setSpacing(10);
 
@@ -168,6 +165,8 @@ public class SettingsScene extends BaseScene{
               "\n" +
               "Total Click Cost: Cost of all clicks in a campaign");
       alert.show();
+    });
+
   }
 
 }
