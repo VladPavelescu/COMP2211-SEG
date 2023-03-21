@@ -53,6 +53,7 @@ public class SettingsScene extends BaseScene{
     var menuButtons = new VBox();
     var menuButtonsBack = new VBox();
 
+    // Label and buttons for the font size
     var fontSizeText = new Label("Set Font Size:");
     var defaultFontButton = new Button("Default");
     var bigFontButton = new Button("Big");
@@ -62,7 +63,9 @@ public class SettingsScene extends BaseScene{
     fontButtons.getChildren().addAll(defaultFontButton, bigFontButton);
     fontButtons.setAlignment(Pos.CENTER);
     fontButtons.setSpacing(10);
-
+    
+    
+    // Label and buttons for the theme
     var themeLabel = new Label("Set Theme:");
     var defaultTheme = new Button("Default");
     var darkTheme = new Button("Dark");
