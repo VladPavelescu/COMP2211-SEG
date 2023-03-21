@@ -54,7 +54,8 @@ public class SettingsScene extends BaseScene{
 
     var menuButtons = new VBox();
     var menuButtonsBack = new VBox();
-
+    
+    //Label and buttons for setting the font size
     var fontSizeText = new Label("Set Font Size:");
     var defaultFontButton = new Button("Default");
     var bigFontButton = new Button("Big");
@@ -64,7 +65,8 @@ public class SettingsScene extends BaseScene{
     fontButtons.getChildren().addAll(defaultFontButton, bigFontButton);
     fontButtons.setAlignment(Pos.CENTER);
     fontButtons.setSpacing(10);
-
+    
+    //Label and buttons for the theme
     var themeLabel = new Label("Set Theme:");
     var defaultTheme = new Button("Default");
     var darkTheme = new Button("Dark");
@@ -75,7 +77,15 @@ public class SettingsScene extends BaseScene{
     themeButtons.getChildren().addAll(defaultTheme, darkTheme, lightTheme);
     themeButtons.setAlignment(Pos.CENTER);
     themeButtons.setSpacing(10);
-
+    
+    //Label and button for the information popup
+    var infoLabel = new Label("View information");
+    var infoButton = new Button("Info");
+    var infoBox = new HBox();
+    infoLabel.getStyleClass().add("heading");
+    infoLabel.setTextAlignment(TextAlignment.CENTER);
+    infoBox.getChildren().add(infoButton);
+    infoBox.setAlignment(Pos.CENTER);
 
     //Display buttons
     menuButtons.getChildren().addAll(fontSizeText, fontButtons, themeLabel, themeButtons);
@@ -129,6 +139,35 @@ public class SettingsScene extends BaseScene{
       }
     });
 
+    infoButton.setOnAction(event -> {
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Metric Information");
+      alert.setContentText("This popup intends to give detail to the terms used in the program to aid the user in their understanding.\n" +
+              "\n" +
+              "bounceCount: The Bounce Count is the tally of how many users clicked on an Advert and then did not interact with the landing website. The user either stayed on the landing page for only a short time, or only visited a single page\n" +
+              "\n" +
+              "bounceRate: How many bounces happen per click\n" +
+              "\n" +
+              "clickCount: Tally of how many times users clicked on an Advert\n" +
+              "\n" +
+              "conversionCount: Tally of how many users clicked on an Advert and then performed a desired action. The desired action depends on the campaign but it could include making a purchase, or signing up for a newsletter.\n" +
+              "\n" +
+              "CPA: CPA stands for Cost per Acquisition, which is calculated by taking the average amount spent per successful conversion\n" +
+              "\n" +
+              "CPC: CPC stands for Cost per Click, calculated by taking the average amount spent per successful click\n" +
+              "\n" +
+              "CPM: CPM stands for Cost per Thousand Impressions. An impression occurs when a user is shown an Advert, and is counted regardless of whether it is clicked or not. The CPM is calculated by taking the average amount spent per 1000 impressions\n" +
+              "\n" +
+              "CTR: CTR stands for Click Through Rate. This is the average number of clicks per impression\n" +
+              "\n" +
+              "impressionNum: Amount of impressions\n" +
+              "\n" +
+              "totalCost: Total amount spent\n" +
+              "\n" +
+              "uniquesCount: Tally of how many unique users perform a click\n" +
+              "\n" +
+              "Total Click Cost: Cost of all clicks in a campaign");
+      alert.show();
   }
 
 }
