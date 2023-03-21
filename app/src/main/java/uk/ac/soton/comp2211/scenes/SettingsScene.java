@@ -14,6 +14,9 @@ import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp2211.ui.AppWindow;
 import uk.ac.soton.comp2211.ui.GamePane;
 import uk.ac.soton.comp2211.utility.SettingsManager;
+import javafx.scene.layout.Border;
+import javafx.geometry.Insets;
+import uk.ac.soton.comp2211.App;
 
 public class SettingsScene extends BaseScene{
 
