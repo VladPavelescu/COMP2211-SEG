@@ -17,7 +17,7 @@ public class SQLGeneratorTest {
                 group = "strftime('%Y-%W', date)";
             default -> {
             }
-        };
+        }
 
         String groupEntryDate = group.substring(0, group.length() - 5);
 
@@ -26,6 +26,7 @@ public class SQLGeneratorTest {
                 "SELECT " + groupEntryDate + "entry_date)" + " AS time, COUNT(exit_date)" +
                         " FROM server_log" +
                         " WHERE (unixepoch(exit_date) - unixepoch(entry_date) < 10 OR exit_date = 'n/a')" +
+                        " AND DATE(entry_date) BETWEEN " + startDate + " AND " + endDate +
                         " GROUP BY time";
 //            case "bounceRate" ->
 //
