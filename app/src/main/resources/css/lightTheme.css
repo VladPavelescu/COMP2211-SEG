@@ -60,3 +60,18 @@
 .chart-legend-item-symbol{
    -fx-background-radius: 0;
 }
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+.chart-vertical-grid-lines {
+    -fx-stroke: #7F796C;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: #7F796C;
+}
+.chart-alternative-row-fill {
+    -fx-fill: transparent;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
