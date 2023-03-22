@@ -44,3 +44,18 @@
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
+
+.chart-legend {
+   -fx-background-color:  transparent;
+   -fx-padding: 20px;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #3C5A82;
+    -fx-background-color: transparent;
+    -fx-font-size: 12px;
+}
+
+.chart-legend-item-symbol{
+   -fx-background-radius: 0;
+}
