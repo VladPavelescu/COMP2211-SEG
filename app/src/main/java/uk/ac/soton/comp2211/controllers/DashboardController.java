@@ -61,6 +61,8 @@ public class DashboardController implements Initializable {
 
   private boolean dateChanged;
 
+  private boolean intervalChanged;
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     start_date.setValue(LocalDate.of(2015, 1, 1));
@@ -75,6 +77,12 @@ public class DashboardController implements Initializable {
     });
     end_date.setOnAction(e -> {
       dateChanged = true;
+      loadData();
+    });
+
+    //Update graph when interval is updated
+    intervalBox.setOnAction(e -> {
+      intervalChanged = true;
       loadData();
     });
 
@@ -156,8 +164,9 @@ public class DashboardController implements Initializable {
     // Run the calculations on a background thread to keep the application responsive
     new Thread(() -> {
 
-      if(dateChanged){
+      if(dateChanged || intervalChanged){
         dateChanged = false;
+        intervalChanged = false;
 
         Platform.runLater(() -> lineGraph.getData().clear());
 
@@ -184,9 +193,7 @@ public class DashboardController implements Initializable {
                             event -> Tooltip.install(data.getNode(),
                                     new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
           }
-
         }
-
       } else {
 
           // If the series updated is already on the graph, remove it and return
@@ -204,29 +211,26 @@ public class DashboardController implements Initializable {
           }
 
         //Otherwise, create the series and add it to the graph
-          Series<String, Number> series = new Series<>();
-          series.setName(changedMetric);
+        Series<String, Number> series = new Series<>();
+        series.setName(changedMetric);
 
-        for (String metric : metricsSelected) {
+        String[] values = SQLExecutor.executeSQL(intervalBox.getValue(), changedMetric, start_date.getValue().toString(), end_date.getValue().toString());
 
-          String[] values = SQLExecutor.executeSQL(intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString());
+        for (String value : values) {
+          String parts[] = value.split("\\t");
+          Data<String, Number> data = new Data<>(parts[0], Double.parseDouble(parts[1]));
+          series.getData().add(data);
+        }
 
-          for (String value : values) {
-            String parts[] = value.split("\\t");
-            Data<String, Number> data = new Data<>(parts[0], Double.parseDouble(parts[1]));
-            series.getData().add(data);
-          }
+        // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+        Platform.runLater(() -> lineGraph.getData().add(series));
 
+        for (Data<String, Number> data : series.getData()) {
           // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-          Platform.runLater(() -> lineGraph.getData().add(series));
-
-          for (Data<String, Number> data : series.getData()) {
-            // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-            Platform.runLater(
-                    () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                            event -> Tooltip.install(data.getNode(),
-                                    new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
-          }
+          Platform.runLater(
+                  () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                          event -> Tooltip.install(data.getNode(),
+                                  new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
         }
       }
 
