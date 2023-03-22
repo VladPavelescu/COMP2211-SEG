@@ -36,7 +36,7 @@ public class SQLExecutor {
   public static String[] executeSQL(String date, String metric) {
 
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
-        SQLExecutor.class.getResource("/db/logDatabase.db").getPath());
+            SQLExecutor.class.getResource("/db/logDatabase.db").getPath());
     List<String> resultList = new ArrayList<>();
 
     try {
@@ -87,5 +87,51 @@ public class SQLExecutor {
     }
 
     return resultList.toArray(new String[0]);
+  }
+
+  //Modified executeSQL
+  public static String[] executeSQL(String interval, String metric, String startDate, String endDate) {
+
+    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
+            SQLExecutor.class.getResource("/db/logDatabase.db").getPath());
+    List<String> resultList = new ArrayList<>();
+
+    try {
+      // Load the SQLite JDBC driver
+      Class.forName("org.sqlite.JDBC");
+
+      // Create a connection to the database
+      Connection connection = DriverManager.getConnection(jdbcUrl);
+
+      // Read the SQL script from a file
+      String sqlScript = SQLGeneratorTest.getSQLQuery(interval, metric, startDate, endDate);
+
+      Statement statement = connection.createStatement();
+      ResultSet resultSet = statement.executeQuery(sqlScript);
+
+      // Append the results of the query to the result list
+      ResultSetMetaData metadata = resultSet.getMetaData();
+      int columnCount = metadata.getColumnCount();
+      while (resultSet.next()) {
+        StringBuilder row = new StringBuilder();
+        for (int i = 1; i <= columnCount; i++) {
+          row.append(resultSet.getString(i)).append("\t");
+        }
+        resultList.add(row.toString());
+      }
+
+      // Clean up resources
+      resultSet.close();
+      statement.close();
+
+      // Close the connection
+      connection.close();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return resultList.toArray(new String[0]);
+
   }
 }

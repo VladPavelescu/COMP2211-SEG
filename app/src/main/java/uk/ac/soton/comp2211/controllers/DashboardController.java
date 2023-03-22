@@ -1,7 +1,7 @@
 package uk.ac.soton.comp2211.controllers;
 
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,6 +49,9 @@ public class DashboardController implements Initializable {
 
   @FXML
   private ScrollPane metricsScrollPane;
+
+  @FXML
+  private ComboBox<String> intervalBox;
 
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
@@ -113,6 +116,11 @@ public class DashboardController implements Initializable {
         Tooltip.install(checkBox, tooltip);
       }
     }
+
+    //Time interval combobox
+    intervalBox.getItems().addAll("Hourly", "Daily", "Weekly");
+    intervalBox.getSelectionModel().select(1);
+
   }
 
   @FXML
@@ -148,24 +156,65 @@ public class DashboardController implements Initializable {
     // Run the calculations on a background thread to keep the application responsive
     new Thread(() -> {
 
-      var dates = SQLExecutor.getDates(start_date.getValue().toString(),
-          end_date.getValue().toString());
-
-      // Update all selected metrics if the date was changed
-      if (dateChanged) {
+      if(dateChanged){
         dateChanged = false;
 
         Platform.runLater(() -> lineGraph.getData().clear());
 
         for (String metric : metricsSelected) {
+
+          //Retrieves all data values
+          String[] values = SQLExecutor.executeSQL(intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString());
+
           Series<String, Number> series = new Series<>();
           series.setName(metric);
 
-          for (LocalDate date : dates) {
-            var value = SQLExecutor.executeSQL(date.toString(), metric)[0].trim();
-            if (!value.equals("null")) {
-              series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
+          //Adds the data values into a series
+          for (String value : values) {
+            String parts[] = value.split("\\t");
+            Data<String, Number> data = new Data<>(parts[0], Double.parseDouble(parts[1]));
+            series.getData().add(data);
+          }
+          Platform.runLater(() -> lineGraph.getData().add(series));
+
+          for (Data<String, Number> data : series.getData()) {
+            // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+            Platform.runLater(
+                    () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                            event -> Tooltip.install(data.getNode(),
+                                    new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+          }
+
+        }
+
+      } else {
+
+          // If the series updated is already on the graph, remove it and return
+          for (Series<String, Number> series : lineGraph.getData()) {
+            if (series.getName().equals(changedMetric)) {
+              Platform.runLater(() -> {
+                lineGraph.getData().remove(series);
+                stackPane.getChildren().remove(progressIndicator);
+                allMetrics.forEach(c -> c.setDisable(false));
+                start_date.setDisable(false);
+                end_date.setDisable(false);
+              });
+              return;
             }
+          }
+
+        //Otherwise, create the series and add it to the graph
+          Series<String, Number> series = new Series<>();
+          series.setName(changedMetric);
+
+        for (String metric : metricsSelected) {
+
+          String[] values = SQLExecutor.executeSQL(intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString());
+
+          for (String value : values) {
+            String parts[] = value.split("\\t");
+            Data<String, Number> data = new Data<>(parts[0], Double.parseDouble(parts[1]));
+            series.getData().add(data);
           }
 
           // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
@@ -174,48 +223,10 @@ public class DashboardController implements Initializable {
           for (Data<String, Number> data : series.getData()) {
             // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
             Platform.runLater(
-                () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                    event -> Tooltip.install(data.getNode(),
-                        new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+                    () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                            event -> Tooltip.install(data.getNode(),
+                                    new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
           }
-        }
-      } else {
-
-        // If the series updated is already on the graph, remove it and return
-        for (Series<String, Number> series : lineGraph.getData()) {
-          if (series.getName().equals(changedMetric)) {
-            Platform.runLater(() -> {
-              lineGraph.getData().remove(series);
-              stackPane.getChildren().remove(progressIndicator);
-              allMetrics.forEach(c -> c.setDisable(false));
-              start_date.setDisable(false);
-              end_date.setDisable(false);
-            });
-            return;
-          }
-        }
-
-        //Otherwise, create the series and add it to the graph
-
-        Series<String, Number> series = new Series<>();
-        series.setName(changedMetric);
-
-        for (LocalDate date : dates) {
-          var value = SQLExecutor.executeSQL(date.toString(), changedMetric)[0].trim();
-          if (!value.equals("null")) {
-            series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
-          }
-        }
-
-        // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-        Platform.runLater(() -> lineGraph.getData().add(series));
-
-        for (Data<String, Number> data : series.getData()) {
-          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-          Platform.runLater(
-              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                  event -> Tooltip.install(data.getNode(),
-                      new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
         }
       }
 
@@ -228,6 +239,89 @@ public class DashboardController implements Initializable {
       });
     }).start();
   }
+
+//    new Thread(() -> {
+//
+//      var dates = SQLExecutor.getDates(start_date.getValue().toString(),
+//          end_date.getValue().toString());
+//
+//      // Update all selected metrics if the date was changed
+//      if (dateChanged) {
+//        dateChanged = false;
+//
+//        Platform.runLater(() -> lineGraph.getData().clear());
+//
+//        for (String metric : metricsSelected) {
+//          Series<String, Number> series = new Series<>();
+//          series.setName(metric);
+//
+//          for (LocalDate date : dates) {
+//            var value = SQLExecutor.executeSQL(date.toString(), metric)[0].trim();
+//            if (!value.equals("null")) {
+//              series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
+//            }
+//          }
+//
+//          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+//          Platform.runLater(() -> lineGraph.getData().add(series));
+//
+//          for (Data<String, Number> data : series.getData()) {
+//            // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+//            Platform.runLater(
+//                () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+//                    event -> Tooltip.install(data.getNode(),
+//                        new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+//          }
+//        }
+//      } else {
+//
+//        // If the series updated is already on the graph, remove it and return
+//        for (Series<String, Number> series : lineGraph.getData()) {
+//          if (series.getName().equals(changedMetric)) {
+//            Platform.runLater(() -> {
+//              lineGraph.getData().remove(series);
+//              stackPane.getChildren().remove(progressIndicator);
+//              allMetrics.forEach(c -> c.setDisable(false));
+//              start_date.setDisable(false);
+//              end_date.setDisable(false);
+//            });
+//            return;
+//          }
+//        }
+//
+//        //Otherwise, create the series and add it to the graph
+//
+//        Series<String, Number> series = new Series<>();
+//        series.setName(changedMetric);
+//
+//        for (LocalDate date : dates) {
+//          var value = SQLExecutor.executeSQL(date.toString(), changedMetric)[0].trim();
+//          if (!value.equals("null")) {
+//            series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
+//          }
+//        }
+//
+//        // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+//        Platform.runLater(() -> lineGraph.getData().add(series));
+//
+//        for (Data<String, Number> data : series.getData()) {
+//          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+//          Platform.runLater(
+//              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+//                  event -> Tooltip.install(data.getNode(),
+//                      new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+//        }
+//      }
+//
+//      // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+//      Platform.runLater(() -> {
+//        stackPane.getChildren().remove(progressIndicator);
+//        allMetrics.forEach(c -> c.setDisable(false));
+//        start_date.setDisable(false);
+//        end_date.setDisable(false);
+//      });
+//    }).start();
+//  }
 
   @FXML
   private void buttonAction(ActionEvent event) {
