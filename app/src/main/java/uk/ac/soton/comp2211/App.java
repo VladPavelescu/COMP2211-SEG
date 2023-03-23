@@ -58,8 +58,8 @@ public class App extends Application {
     createFolderAndFile();
 
     // Application icon
-//    Image image = new Image(App.class.getResource("/img/logo1.jpg").toExternalForm());
-//    stage.getIcons().add(image);
+    Image image = new Image(App.class.getResource("/img/logo1.JPG").toExternalForm());
+    stage.getIcons().add(image);
 
     // Open game window
     openApp();
