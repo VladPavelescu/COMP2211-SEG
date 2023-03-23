@@ -71,11 +71,11 @@ public class MenuScene extends BaseScene {
     var fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().add(new ExtensionFilter("CSV files", "*.csv"));
 
-    final ImageView selectedImage = new ImageView();
-    selectedImage.setFitHeight(200);
-    selectedImage.setFitWidth(200);
-    Image image = new Image(MenuScene.class.getResource("/img/logo2.jpg").toExternalForm());
-    selectedImage.setImage(image);
+//    final ImageView selectedImage = new ImageView();
+//    selectedImage.setFitHeight(200);
+//    selectedImage.setFitWidth(200);
+//    Image image = new Image(MenuScene.class.getResource("/img/logo2.jpg").toExternalForm());
+//    selectedImage.setImage(image);
 
     //placeholder label for the app
     var label = new Label("Ad Auction Dashboard");
@@ -106,7 +106,8 @@ public class MenuScene extends BaseScene {
     importLabel.setUnderline(true);
     fileBox.getChildren().add(importLabel);
 
-    vbox.getChildren().addAll(selectedImage, hbox);
+//    vbox.getChildren().addAll(selectedImage, hbox);
+    vbox.getChildren().addAll(hbox);
 
     //
     var loadFileButton = new Button("Upload log files");

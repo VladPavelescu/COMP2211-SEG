@@ -27,8 +27,10 @@ class CSVClickLogReader {
     String delimiter = ",";
 
     // Database connection details
-    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
-        CSVClickLogReader.class.getResource("/db/logDatabase.db").getPath());
+//    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
+//        CSVClickLogReader.class.getResource("/db/logDatabase.db").getPath());
+    String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
+    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
     logger.info("Writing to: " + jdbcUrl);
 
     Connection connection = null;

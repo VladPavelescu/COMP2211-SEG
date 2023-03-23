@@ -34,8 +34,7 @@ public class App extends Application {
   private static final Logger logger = LogManager.getLogger(App.class);
   private Stage stage;
 
-  private final String folderPath = "src/main/resources/db";
-  private final String filePath = folderPath + "/logDatabase.db";
+  private final String currentPath = System.getProperty("user.dir");
 
   /**
    * Start the game
@@ -59,8 +58,8 @@ public class App extends Application {
     createFolderAndFile();
 
     // Application icon
-    Image image = new Image(App.class.getResource("/img/logo1.jpg").toExternalForm());
-    stage.getIcons().add(image);
+//    Image image = new Image(App.class.getResource("/img/logo1.jpg").toExternalForm());
+//    stage.getIcons().add(image);
 
     // Open game window
     openApp();
@@ -73,13 +72,16 @@ public class App extends Application {
    * Create the folder and file
    */
   private void createFolderAndFile() {
+
     try {
-      Files.createDirectories(Paths.get(folderPath));
-      Files.createFile(Paths.get(filePath));
+      File datebaseFile = new File(currentPath, "logDatabase.db");
+      datebaseFile.createNewFile();
       logger.info("Folder and file created");
     } catch (IOException e) {
       logger.error("Error creating folder and file", e);
     }
+
+
   }
 
   /**
@@ -87,8 +89,7 @@ public class App extends Application {
    */
   private void deleteFolderAndFile() {
     try {
-      Files.deleteIfExists(Paths.get(filePath));
-      Files.deleteIfExists(Paths.get(folderPath));
+      Files.deleteIfExists(Path.of(currentPath + "logDatabase.db"));
       logger.info("Folder and file deleted");
     } catch (IOException e) {
       logger.error("Error deleting folder and file", e);

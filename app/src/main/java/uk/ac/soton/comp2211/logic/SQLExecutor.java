@@ -92,8 +92,10 @@ public class SQLExecutor {
   //Modified executeSQL
   public static String[] executeSQL(String interval, String metric, String startDate, String endDate) {
 
-    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
-            SQLExecutor.class.getResource("/db/logDatabase.db").getPath());
+//    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
+//            SQLExecutor.class.getResource("/db/logDatabase.db").getPath());
+    String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
+    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
     List<String> resultList = new ArrayList<>();
 
     try {
