@@ -89,7 +89,7 @@ public class App extends Application {
    */
   private void deleteFolderAndFile() {
     try {
-      Files.deleteIfExists(Path.of(currentPath + "logDatabase.db"));
+      Files.deleteIfExists(Path.of(currentPath + "\\logDatabase.db"));
       logger.info("Folder and file deleted");
     } catch (IOException e) {
       logger.error("Error deleting folder and file", e);
