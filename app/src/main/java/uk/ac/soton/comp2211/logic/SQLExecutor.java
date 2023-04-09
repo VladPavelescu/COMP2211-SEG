@@ -47,7 +47,7 @@ public class SQLExecutor {
       Connection connection = DriverManager.getConnection(jdbcUrl);
 
       // Read the SQL script from a file
-      String sqlScript = SQLGenerator.getSQLQuery(date, metric);
+      String sqlScript = SQLGeneratorOLD.getSQLQuery(date, metric);
 
       // Split the SQL script into individual queries
       String[] queries = sqlScript.split(";");
@@ -106,7 +106,7 @@ public class SQLExecutor {
       Connection connection = DriverManager.getConnection(jdbcUrl);
 
       // Read the SQL script from a file
-      String sqlScript = SQLGeneratorTest.getSQLQuery(interval, metric, startDate, endDate);
+      String sqlScript = SQLGenerator.getSQLQuery(interval, metric, startDate, endDate);
 
       Statement statement = connection.createStatement();
       ResultSet resultSet = statement.executeQuery(sqlScript);
