@@ -8,6 +8,7 @@ public class SQLGenerator {
         startDate = String.format("'%s'", startDate);
         endDate = String.format("'%s'", endDate);
 
+        // Group by time intervals
         switch (interval){
             case "Hourly" ->
                group = "strftime('%Y-%m-%d %H:00:00', date)";
@@ -19,6 +20,7 @@ public class SQLGenerator {
             }
         }
 
+        // If the table uses a different column name other than date
         String groupEntryDate = group.substring(0, group.length() - 5);
 
         return switch (metric){
