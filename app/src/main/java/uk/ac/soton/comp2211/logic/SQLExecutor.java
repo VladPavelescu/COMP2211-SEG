@@ -49,7 +49,7 @@ public class SQLExecutor {
       Connection connection = DriverManager.getConnection(jdbcUrl);
 
       // Read the SQL script from a file
-      String sqlScript = SQLGenerator.getSQLQuery(date, metric);
+      String sqlScript = SQLGeneratorOLD.getSQLQuery(date, metric);
 
       // Split the SQL script into individual queries
       String[] queries = sqlScript.split(";");
