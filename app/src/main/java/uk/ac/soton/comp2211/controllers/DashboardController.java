@@ -53,6 +53,9 @@ public class DashboardController implements Initializable {
   @FXML
   private ComboBox<String> intervalBox;
 
+  @FXML
+  private ComboBox<String> bounceDefinition;
+
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
   private ArrayList<CheckBox> allMetrics = new ArrayList<>();
@@ -84,6 +87,10 @@ public class DashboardController implements Initializable {
     intervalBox.setOnAction(e -> {
       intervalChanged = true;
       loadData();
+    });
+
+    bounceDefinition.setOnAction(e -> {
+
     });
 
     // Alternative in Histogram.fxml
@@ -128,6 +135,10 @@ public class DashboardController implements Initializable {
     //Time interval combobox
     intervalBox.getItems().addAll("Hourly", "Daily", "Weekly");
     intervalBox.getSelectionModel().select(1);
+
+    //
+    bounceDefinition.getItems().addAll("Time spent","Pages visited");
+    bounceDefinition.getSelectionModel().select(0);
 
   }
 
