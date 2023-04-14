@@ -35,7 +35,7 @@ public class SQLGenerator {
                     case "Pages visited" ->
                         "SELECT " + groupEntryDate + "entry_date) AS time, COUNT(pages_viewed)" +
                             " FROM server_log" +
-                            " WHERE pages_viewed >= 1" +
+                            " WHERE (pages_viewed) == 1" +
                             " AND DATE(entry_date) BETWEEN " + startDate + " AND " + endDate +
                             " GROUP BY time";
                     default -> "";
