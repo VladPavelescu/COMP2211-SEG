@@ -2,7 +2,7 @@ package uk.ac.soton.comp2211.logic;
 
 public class SQLGenerator {
 
-    public static String getSQLQuery(String interval,String metric, String startDate, String endDate) {
+    public static String getSQLQuery(String bounceDef, String interval,String metric, String startDate, String endDate) {
 
         String group = "";
         startDate = String.format("'%s'", startDate);
@@ -25,11 +25,22 @@ public class SQLGenerator {
 
         return switch (metric){
             case "bounceCount" ->
-                "SELECT " + groupEntryDate + "entry_date) AS time, COUNT(exit_date)" +
-                        " FROM server_log" +
-                        " WHERE (unixepoch(exit_date) - unixepoch(entry_date) < 10 OR exit_date = 'n/a')" +
-                        " AND DATE(entry_date) BETWEEN " + startDate + " AND " + endDate +
-                        " GROUP BY time";
+                switch (bounceDef){
+                    case "Time spent" ->
+                        "SELECT " + groupEntryDate + "entry_date) AS time, COUNT(exit_date)" +
+                            " FROM server_log" +
+                            " WHERE (unixepoch(exit_date) - unixepoch(entry_date) < 10 OR exit_date = 'n/a')" +
+                            " AND DATE(entry_date) BETWEEN " + startDate + " AND " + endDate +
+                            " GROUP BY time";
+                    case "Pages visited" ->
+                        "SELECT " + groupEntryDate + "entry_date) AS time, COUNT(pages_viewed)" +
+                            " FROM server_log" +
+                            " WHERE pages_viewed >= 1" +
+                            " AND DATE(entry_date) BETWEEN " + startDate + " AND " + endDate +
+                            " GROUP BY time";
+                    default -> "";
+                }
+                ;
             case "bounceRate" ->
                 "SELECT bounce.time, COALESCE(CAST(bounce.count AS REAL) / CAST(click.frequency AS REAL), 0)" +
                         " FROM (" +

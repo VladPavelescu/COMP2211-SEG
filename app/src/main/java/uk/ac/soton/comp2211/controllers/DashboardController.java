@@ -66,6 +66,8 @@ public class DashboardController implements Initializable {
 
   private boolean intervalChanged;
 
+  private boolean bounceChanged;
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     start_date.setValue(LocalDate.of(2015, 1, 1));
@@ -89,8 +91,10 @@ public class DashboardController implements Initializable {
       loadData();
     });
 
+    //Update graph when bounce definition is updated
     bounceDefinition.setOnAction(e -> {
-
+      bounceChanged = true;
+      loadData();
     });
 
     // Alternative in Histogram.fxml
@@ -139,7 +143,6 @@ public class DashboardController implements Initializable {
     //
     bounceDefinition.getItems().addAll("Time spent","Pages visited");
     bounceDefinition.getSelectionModel().select(0);
-
   }
 
   @FXML
@@ -175,16 +178,17 @@ public class DashboardController implements Initializable {
     // Run the calculations on a background thread to keep the application responsive
     new Thread(() -> {
 
-      if(dateChanged || intervalChanged){
+      if(dateChanged || intervalChanged || bounceChanged){
         dateChanged = false;
         intervalChanged = false;
+        bounceChanged = false;
 
         Platform.runLater(() -> lineGraph.getData().clear());
 
         for (String metric : metricsSelected) {
 
           //Retrieves all data values
-          String[] values = SQLExecutor.executeSQL(intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString());
+          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString());
 
           Series<String, Number> series = new Series<>();
           series.setName(metric);
@@ -225,7 +229,7 @@ public class DashboardController implements Initializable {
         Series<String, Number> series = new Series<>();
         series.setName(changedMetric);
 
-        String[] values = SQLExecutor.executeSQL(intervalBox.getValue(), changedMetric, start_date.getValue().toString(), end_date.getValue().toString());
+        String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), changedMetric, start_date.getValue().toString(), end_date.getValue().toString());
 
         for (String value : values) {
           String parts[] = value.split("\\t");
