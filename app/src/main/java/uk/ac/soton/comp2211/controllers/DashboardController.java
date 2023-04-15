@@ -56,6 +56,9 @@ public class DashboardController implements Initializable {
   @FXML
   private ComboBox<String> bounceDefinition;
 
+  @FXML
+  private ComboBox<String> audienceSegmentBox;
+
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
   private ArrayList<CheckBox> allMetrics = new ArrayList<>();
@@ -67,6 +70,8 @@ public class DashboardController implements Initializable {
   private boolean intervalChanged;
 
   private boolean bounceChanged;
+
+  private boolean audienceSegmentChanged;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -97,6 +102,12 @@ public class DashboardController implements Initializable {
       loadData();
     });
 
+    //Update graph when audience segment is updated
+    audienceSegmentBox.setOnAction(e -> {
+      //audienceSegmentChanged = true;
+      //loadData();
+    });
+
     // Alternative in Histogram.fxml
     //scrollPane = new ScrollPane();
     //scrollPane.setFitToWidth(true);
@@ -117,8 +128,8 @@ public class DashboardController implements Initializable {
         checkBox.getStyleClass().add("checkbox");
         Tooltip tooltip = new Tooltip();
         String text = switch (checkBox.getId()) {
-          case "bounceCountCheckbox" -> "The number of single-page visits without any further action.";
-          case "bounceRateCheckbox" -> "The percentage of single-page visits divided by the total number of sessions.";
+          case "bounceCountCheckbox" -> "The number of users who clicks on an ad, but then fail to interact with the website.";
+          case "bounceRateCheckbox" -> "The percentage of single-page/short-time visits divided by the total number of sessions.";
           case "clickCountCheckbox" -> "The total number of times users clicked on an advertisement.";
           case "conversionCountCheckbox" -> "The total number of desired actions completed by users after clicking on an advertisement.";
           case "cpaCheckbox" -> "(Cost per Action): The average cost an advertiser pays for each desired action (e.g., a purchase or signup) completed.";
@@ -140,9 +151,13 @@ public class DashboardController implements Initializable {
     intervalBox.getItems().addAll("Hourly", "Daily", "Weekly");
     intervalBox.getSelectionModel().select(1);
 
-    //
-    bounceDefinition.getItems().addAll("Time spent","Pages visited");
+    //Bounce definition ComboBox
+    bounceDefinition.getItems().addAll("Short Time Spent","Single Page Visits");
     bounceDefinition.getSelectionModel().select(0);
+
+    //Audience Segment ComboBox
+    audienceSegmentBox.getItems().addAll("Not specified", "Gender", "Age", "Income");
+    audienceSegmentBox.getSelectionModel().select(0);
   }
 
   @FXML

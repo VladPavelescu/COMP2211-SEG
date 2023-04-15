@@ -56,19 +56,25 @@
             <DatePicker fx:id="end_date" prefWidth="169.0" promptText="Select end date" />
           </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2" translateY="-50.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2" translateY="-70.0">
                <children>
-                  <Label contentDisplay="CENTER" text="Interval" />
+                  <Label contentDisplay="CENTER" text="Time Interval" />
                   <ComboBox fx:id="intervalBox" prefWidth="150.0" />
                </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3" translateY="-80.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3" translateY="-110.0">
+          <children>
+            <Label contentDisplay="CENTER" text="Audience Segment" />
+            <ComboBox fx:id="audienceSegmentBox" prefWidth="150.0" />
+          </children>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4" translateY="-155.0">
           <children>
             <Label contentDisplay="CENTER" text="Define Bounce" />
             <ComboBox fx:id="bounceDefinition" prefWidth="150.0" />
           </children>
         </VBox>
-        <ScrollPane fx:id="metricsScrollPane" hbarPolicy="NEVER" prefHeight="248.0" prefWidth="165.0" vbarPolicy="AS_NEEDED" GridPane.rowIndex="4" GridPane.valignment="BASELINE" translateY="-80.0">
+        <ScrollPane fx:id="metricsScrollPane" hbarPolicy="NEVER" prefHeight="248.0" prefWidth="165.0" vbarPolicy="AS_NEEDED" GridPane.rowIndex="4" GridPane.valignment="BASELINE" translateY="-60.0">
         <content>
             <VBox fx:id="metricsVBox" prefHeight="248.0" prefWidth="165.0" spacing="3.0">
               <children>

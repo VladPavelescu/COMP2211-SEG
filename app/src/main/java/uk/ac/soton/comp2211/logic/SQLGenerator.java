@@ -26,13 +26,13 @@ public class SQLGenerator {
         return switch (metric){
             case "bounceCount" ->
                 switch (bounceDef){
-                    case "Time spent" ->
+                    case "Short Time Spent" ->
                         "SELECT " + groupEntryDate + "entry_date) AS time, COUNT(exit_date)" +
                             " FROM server_log" +
                             " WHERE (unixepoch(exit_date) - unixepoch(entry_date) < 10 OR exit_date = 'n/a')" +
                             " AND DATE(entry_date) BETWEEN " + startDate + " AND " + endDate +
                             " GROUP BY time";
-                    case "Pages visited" ->
+                    case "Single Page Visits" ->
                         "SELECT " + groupEntryDate + "entry_date) AS time, COUNT(pages_viewed)" +
                             " FROM server_log" +
                             " WHERE (pages_viewed) == 1" +
