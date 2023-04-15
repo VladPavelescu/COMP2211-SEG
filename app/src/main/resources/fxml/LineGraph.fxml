@@ -64,8 +64,8 @@
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="3" translateY="-140.0" translateX="-100">
           <children>
-            <Label contentDisplay="CENTER" text="Audience Segment" />
-            <ComboBox fx:id="audienceSegmentBox" prefWidth="150.0" />
+            <Label contentDisplay="CENTER" text="Context" />
+            <ComboBox fx:id="contextBox" prefWidth="150.0" />
           </children>
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="4" translateY="-140.0" translateX="-100">

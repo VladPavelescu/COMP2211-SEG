@@ -57,7 +57,7 @@ public class DashboardController implements Initializable {
   private ComboBox<String> bounceDefinition;
 
   @FXML
-  private ComboBox<String> audienceSegmentBox;
+  private ComboBox<String> contextBox;
 
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
@@ -71,7 +71,7 @@ public class DashboardController implements Initializable {
 
   private boolean bounceChanged;
 
-  private boolean audienceSegmentChanged;
+  private boolean contextChanged;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -104,7 +104,7 @@ public class DashboardController implements Initializable {
     });
 
     //Update graph when audience segment is updated
-    audienceSegmentBox.setOnAction(e -> {
+    contextBox.setOnAction(e -> {
       //audienceSegmentChanged = true;
       //loadData();
     });
@@ -157,8 +157,8 @@ public class DashboardController implements Initializable {
     bounceDefinition.getSelectionModel().select(0);
 
     //Audience Segment ComboBox
-    audienceSegmentBox.getItems().addAll("Not specified", "Gender", "Age", "Income");
-    audienceSegmentBox.getSelectionModel().select(0);
+    contextBox.getItems().addAll("Not specified", "Blog", "News", "Shopping", "Social Media");
+    contextBox.getSelectionModel().select(0);
   }
 
   @FXML
