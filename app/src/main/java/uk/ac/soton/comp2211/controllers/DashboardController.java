@@ -392,6 +392,7 @@ public class DashboardController implements Initializable {
       Parent root1 = newPane.load();
       Stage stage = new Stage();
       stage.setTitle("Line Graph");
+      stage.setResizable(false);
       stage.setScene(new Scene(root1));
       //SettingsManager.setTheme(root1);
       stage.show();
