@@ -1,0 +1,75 @@
+.menu-background {
+  -fx-background-color: #96C3D7;
+  -fx-background-size: cover;
+}
+
+.gamepane {
+    -fx-background-color: #96C3D7;
+}
+
+.menu-item {
+  -fx-background-color:grey;
+  -fx-text-fill: #283241;
+  -fx-font-size: 20px;
+  -fx-font-weight: 700;
+  -fx-border-radius: 10px;
+}
+
+.menu-item:hover {
+  -fx-text-fill: white;
+}
+
+.label {
+  -fx-font-size: 24px;
+  -fx-font-weight: 700;
+}
+
+.button {
+    -fx-pref-width: 200px;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-border-radius: 10px;
+}
+
+.button:hover{
+    -fx-text-fill: white;
+}
+
+.scroll-pane {
+   -fx-background-color:transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.chart-legend {
+   -fx-background-color:  transparent;
+   -fx-padding: 20px;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #3C5A82;
+    -fx-background-color: transparent;
+    -fx-font-size: 12px;
+}
+
+.chart-legend-item-symbol{
+   -fx-background-radius: 0;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+.chart-vertical-grid-lines {
+    -fx-stroke: #3C5A82;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: #3C5A82;
+}
+.chart-alternative-row-fill {
+    -fx-fill: transparent;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}

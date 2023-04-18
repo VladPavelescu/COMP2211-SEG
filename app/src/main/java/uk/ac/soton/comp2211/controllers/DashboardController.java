@@ -23,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.soton.comp2211.logic.SQLExecutor;
+import uk.ac.soton.comp2211.utility.SettingsManager;
 
 public class DashboardController implements Initializable {
 
@@ -34,6 +35,9 @@ public class DashboardController implements Initializable {
 
   @FXML
   private Button costBut;
+
+  @FXML
+  private Button newGraph;
 
   @FXML
   private DatePicker start_date;
@@ -156,8 +160,8 @@ public class DashboardController implements Initializable {
     bounceDefinition.getItems().addAll("Short Time Spent","Single Page Visits");
     bounceDefinition.getSelectionModel().select(0);
 
-    //Audience Segment ComboBox
-    contextBox.getItems().addAll("Not specified", "Blog", "News", "Shopping", "Social Media");
+    //Context ComboBox
+    contextBox.getItems().addAll("Not specified", "Blog", "News", "Hobbies", "Travel","Shopping", "Social Media");
     contextBox.getSelectionModel().select(0);
   }
 
@@ -364,6 +368,10 @@ public class DashboardController implements Initializable {
     if (event.getSource().equals(costBut)) {
       openHistogram();
     }
+    //Load new graph
+    if (event.getSource().equals(newGraph)) {
+      openNewGraphWindow();
+    }
   }
 
   private void openHistogram() {
@@ -373,6 +381,19 @@ public class DashboardController implements Initializable {
       Stage stage = new Stage();
       stage.setTitle("Total Click Cost");
       stage.setScene(new Scene(root1));
+      stage.show();
+    } catch (Exception ignored) {
+    }
+  }
+
+  private void openNewGraphWindow() {
+    try {
+      FXMLLoader newPane = new FXMLLoader(getClass().getResource("/fxml/NewLineGraph.fxml"));
+      Parent root1 = newPane.load();
+      Stage stage = new Stage();
+      stage.setTitle("Line Graph");
+      stage.setScene(new Scene(root1));
+      //SettingsManager.setTheme(root1);
       stage.show();
     } catch (Exception ignored) {
     }
