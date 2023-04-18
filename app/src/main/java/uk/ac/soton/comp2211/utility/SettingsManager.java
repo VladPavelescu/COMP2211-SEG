@@ -1,6 +1,7 @@
 package uk.ac.soton.comp2211.utility;
 
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 
 public class SettingsManager {
 
@@ -76,6 +77,28 @@ public class SettingsManager {
         scene.getStylesheets().add(DARK_THEME);
       } else if (isLightThemeEnabled) {
         scene.getStylesheets().add(LIGHT_THEME);
+      }
+    }
+
+  }
+
+  public static void setTheme(Pane pane) {
+    pane.getStylesheets().clear();
+    if(isBigFontEnabled) {
+      if (isDefaultThemeEnabled) {
+        pane.getStylesheets().addAll(DEFAULT_THEME, BIG_FONT);
+      } else if (isDarkThemeEnabled) {
+        pane.getStylesheets().addAll(DARK_THEME, BIG_FONT);
+      } else if (isLightThemeEnabled) {
+        pane.getStylesheets().addAll(LIGHT_THEME, BIG_FONT);
+      }
+    } else {
+      if (isDefaultThemeEnabled) {
+        pane.getStylesheets().add(DEFAULT_THEME);
+      } else if (isDarkThemeEnabled) {
+        pane.getStylesheets().add(DARK_THEME);
+      } else if (isLightThemeEnabled) {
+        pane.getStylesheets().add(LIGHT_THEME);
       }
     }
 

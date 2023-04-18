@@ -19,6 +19,7 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -389,12 +390,13 @@ public class DashboardController implements Initializable {
   private void openNewGraphWindow() {
     try {
       FXMLLoader newPane = new FXMLLoader(getClass().getResource("/fxml/NewLineGraph.fxml"));
-      Parent root1 = newPane.load();
+      Pane root1 = newPane.load();
+      root1.getStyleClass().add("menu-background");
+      SettingsManager.setTheme(root1);
       Stage stage = new Stage();
       stage.setTitle("Line Graph");
       stage.setResizable(false);
       stage.setScene(new Scene(root1));
-      //SettingsManager.setTheme(root1);
       stage.show();
     } catch (Exception ignored) {
     }
