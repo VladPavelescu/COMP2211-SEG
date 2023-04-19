@@ -99,7 +99,7 @@ public class SQLExecutor {
    * @param endDate The end date of the range
    * @return A list with the results of the queries
    */
-  public static String[] executeSQL(String bounceDef, String interval, String metric, String startDate, String endDate) {
+  public static String[] executeSQL(String bounceDef, String interval, String metric, String startDate, String endDate, String context,String income, String age, String gender) {
 
     String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
@@ -117,7 +117,7 @@ public class SQLExecutor {
       connection = DriverManager.getConnection(jdbcUrl);
 
       // Read the SQL script from a file
-      String sqlScript = SQLGenerator.getSQLQuery(bounceDef, interval, metric, startDate, endDate);
+      String sqlScript = SQLGenerator.getSQLQuery(bounceDef, interval, metric, startDate, endDate, context, income, age, gender);
 
       statement = connection.createStatement();
       resultSet = statement.executeQuery(sqlScript);

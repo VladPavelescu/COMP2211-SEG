@@ -78,6 +78,12 @@ public class DashboardController implements Initializable {
 
   private boolean contextChanged;
 
+  private boolean incomeChanged;
+
+  private boolean ageChanged;
+  
+  private boolean genderChanged;
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     start_date.setValue(LocalDate.of(2015, 1, 1));
@@ -110,8 +116,8 @@ public class DashboardController implements Initializable {
 
     //Update graph when audience segment is updated
     contextBox.setOnAction(e -> {
-      //audienceSegmentChanged = true;
-      //loadData();
+      contextChanged = true;
+      loadData();
     });
 
     // Alternative in Histogram.fxml
@@ -164,6 +170,7 @@ public class DashboardController implements Initializable {
     //Context ComboBox
     contextBox.getItems().addAll("Not specified", "Blog", "News", "Hobbies", "Travel","Shopping", "Social Media");
     contextBox.getSelectionModel().select(0);
+
   }
 
   @FXML
@@ -199,17 +206,18 @@ public class DashboardController implements Initializable {
     // Run the calculations on a background thread to keep the application responsive
     new Thread(() -> {
 
-      if(dateChanged || intervalChanged || bounceChanged){
+      if(dateChanged || intervalChanged || bounceChanged || contextChanged){
         dateChanged = false;
         intervalChanged = false;
         bounceChanged = false;
+        contextChanged = false;
 
         Platform.runLater(() -> lineGraph.getData().clear());
 
         for (String metric : metricsSelected) {
 
           //Retrieves all data values
-          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString());
+          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString(), contextBox.getValue(), null, null, null);
 
           Series<String, Number> series = new Series<>();
           series.setName(metric);
@@ -250,7 +258,7 @@ public class DashboardController implements Initializable {
         Series<String, Number> series = new Series<>();
         series.setName(changedMetric);
 
-        String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), changedMetric, start_date.getValue().toString(), end_date.getValue().toString());
+        String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), changedMetric, start_date.getValue().toString(), end_date.getValue().toString(), contextBox.getValue(), null, null, null);
 
         for (String value : values) {
           String parts[] = value.split("\\t");
