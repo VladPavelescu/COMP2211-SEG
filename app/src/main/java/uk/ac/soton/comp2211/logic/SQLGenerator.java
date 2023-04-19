@@ -28,13 +28,13 @@ public class SQLGenerator {
         if (context != null && !context.equals("Not specified")) {
             filters = filters + " AND context = '" + context + "'";
         }
-        if (income != null) {
+        if (income != null && !income.equals("Not specified")) {
             filters = filters + " AND income = '" + income + "'";
         }
-        if (age != null) {
+        if (age != null && !age.equals("Not specified")) {
             filters = filters + " AND age = '" + age + "'";
         }
-        if (gender != null) {
+        if (gender != null && !gender.equals("Not specified")) {
             filters = filters + " AND gender = '" + gender + "'";
         }
 

@@ -258,7 +258,7 @@ public class DashboardController implements Initializable {
         for (String metric : metricsSelected) {
 
           //Retrieves all data values
-          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString(), contextBox.getValue(), null, null, null);
+          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(), ageBox.getValue(), genderBox.getValue());
 
           Series<String, Number> series = new Series<>();
           series.setName(metric);
@@ -299,7 +299,7 @@ public class DashboardController implements Initializable {
         Series<String, Number> series = new Series<>();
         series.setName(changedMetric);
 
-        String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), changedMetric, start_date.getValue().toString(), end_date.getValue().toString(), contextBox.getValue(), null, null, null);
+        String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), changedMetric, start_date.getValue().toString(), end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(), ageBox.getValue(), genderBox.getValue());
 
         for (String value : values) {
           String parts[] = value.split("\\t");
