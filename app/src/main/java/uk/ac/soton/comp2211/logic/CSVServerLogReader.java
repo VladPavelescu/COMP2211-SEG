@@ -26,8 +26,6 @@ public class CSVServerLogReader {
     String delimiter = ",";
 
     // Database connection details
-//    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
-//        CSVServerLogReader.class.getResource("/db/logDatabase.db").getPath());
     String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
     logger.info("Writing to: " + jdbcUrl);
@@ -44,6 +42,8 @@ public class CSVServerLogReader {
 
       // Create the server_log table if it doesn't exist
       Statement statement = connection.createStatement();
+      statement.executeUpdate(
+              "DROP TABLE IF EXISTS server_log");
       statement.executeUpdate(
           "CREATE TABLE IF NOT EXISTS server_log (entry_date TEXT, id TEXT, exit_date TEXT, pages_viewed INTEGER, conversion TEXT)");
 

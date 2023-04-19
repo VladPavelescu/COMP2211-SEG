@@ -27,8 +27,6 @@ class CSVClickLogReader {
     String delimiter = ",";
 
     // Database connection details
-//    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
-//        CSVClickLogReader.class.getResource("/db/logDatabase.db").getPath());
     String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
     logger.info("Writing to: " + jdbcUrl);
@@ -45,6 +43,8 @@ class CSVClickLogReader {
 
       // Create the click_log table if it doesn't exist
       Statement statement = connection.createStatement();
+      statement.executeUpdate(
+              "DROP TABLE IF EXISTS click_log");
       statement.executeUpdate(
           "CREATE TABLE IF NOT EXISTS click_log (date TEXT, id TEXT, click_cost REAL)");
 

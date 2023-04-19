@@ -26,8 +26,6 @@ public class CSVImpressionLogReader {
     String delimiter = ",";
 
     // Database connection details
-//    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(
-//        CSVImpressionLogReader.class.getResource("/db/logDatabase.db").getPath());
     String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
     logger.info("Writing to: " + jdbcUrl);
@@ -44,7 +42,10 @@ public class CSVImpressionLogReader {
 
       // Create the click_log table if it doesn't exist
       Statement statement = connection.createStatement();
-      statement.executeUpdate("CREATE TABLE IF NOT EXISTS impression_log (date TEXT, id TEXT, gender TEXT, age TEXT, income TEXT, context TEXT, impression_cost REAL)");
+      statement.executeUpdate(
+              "DROP TABLE IF EXISTS impression_log");
+      statement.executeUpdate(
+              "CREATE TABLE IF NOT EXISTS impression_log (date TEXT, id TEXT, gender TEXT, age TEXT, income TEXT, context TEXT, impression_cost REAL)");
 
       // Prepare the insert statement
       String insertSql = "INSERT INTO impression_log(date, id, gender, age, income, context, impression_cost) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -105,6 +106,96 @@ public class CSVImpressionLogReader {
           logger.error("Error closing file: " + e.getMessage());
         }
       }
+
+      readFileIDs(filePath);
+
     }
   }
+
+  public static void readFileIDs(String filePath){
+
+    BufferedReader bufferedReader = null;
+    String line = "";
+    String delimiter = ",";
+
+    // Database connection details
+    String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
+    String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
+    logger.info("Writing to: " + jdbcUrl);
+
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+
+    int batchSize = 500000;
+
+    try {
+      // Connect to the database
+      connection = DriverManager.getConnection(jdbcUrl);
+      connection.setAutoCommit(false);
+
+      // Create the impression_log table if it doesn't exist
+      Statement statement = connection.createStatement();
+      statement.executeUpdate("DROP TABLE IF EXISTS impressionIDs");
+      statement.executeUpdate("CREATE TABLE IF NOT EXISTS impressionIDs (id TEXT UNIQUE, gender TEXT, age TEXT, income TEXT, context TEXT)");
+
+      // Prepare the insert statement
+      String insertSql = "INSERT OR IGNORE INTO impressionIDs(id, gender, age, income, context) VALUES (?, ?, ?, ?, ?)";
+      preparedStatement = connection.prepareStatement(insertSql);
+
+      bufferedReader = new BufferedReader(new FileReader(filePath));
+      bufferedReader.readLine();
+      logger.info("File successfully read: "+filePath);
+
+      int count = 0;
+
+      while ((line = bufferedReader.readLine()) != null) {
+        String[] row = line.split(delimiter);
+
+        // Set the values for the prepared statement
+        preparedStatement.setString(1, row[1]);
+        preparedStatement.setString(2, row[2]);
+        preparedStatement.setString(3, row[3]);
+        preparedStatement.setString(4, row[4]);
+        preparedStatement.setString(5, row[5]);
+        preparedStatement.addBatch();
+
+        count +=1;
+
+        if(count%batchSize == 0) {
+          preparedStatement.executeBatch();
+          logger.info("Executing batch at count: " + count);
+        }
+      }
+      preparedStatement.executeBatch();
+      connection.commit();
+      logger.info("Data has been inserted successfully");
+
+    } catch (IOException e) {
+      logger.error("Error reading file: " + e.getMessage());
+    } catch (SQLException e) {
+      logger.error("Database error: " + e.getMessage());
+    } finally {
+      // Close the database connection and prepared statement
+      try {
+        if (preparedStatement != null) {
+          preparedStatement.close();
+        }
+        if (connection != null) {
+          connection.close();
+        }
+      } catch (SQLException e) {
+        logger.error("Error closing connection: " + e.getMessage());
+      }
+
+      // Close the file reader
+      if (bufferedReader != null) {
+        try {
+          bufferedReader.close();
+        } catch (IOException e) {
+          logger.error("Error closing file: " + e.getMessage());
+        }
+      }
+    }
+  }
+
 }
