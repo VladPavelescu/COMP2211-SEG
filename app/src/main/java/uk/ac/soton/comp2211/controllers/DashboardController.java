@@ -64,6 +64,15 @@ public class DashboardController implements Initializable {
   @FXML
   private ComboBox<String> contextBox;
 
+  @FXML
+  private ComboBox<String> incomeBox;
+
+  @FXML
+  private ComboBox<String> ageBox;
+
+  @FXML
+  private ComboBox<String> genderBox;
+
   private ArrayList<String> metricsSelected = new ArrayList<>();
 
   private ArrayList<CheckBox> allMetrics = new ArrayList<>();
@@ -120,6 +129,24 @@ public class DashboardController implements Initializable {
       loadData();
     });
 
+    //Update graph when income range is updated
+    incomeBox.setOnAction(e -> {
+      incomeChanged = true;
+      loadData();
+    });
+
+    //Update graph when age range is updated
+    ageBox.setOnAction(e -> {
+      ageChanged = true;
+      loadData();
+    });
+
+    //Update graph when age range is updated
+    genderBox.setOnAction(e -> {
+      genderChanged = true;
+      loadData();
+    });
+
     // Alternative in Histogram.fxml
     //scrollPane = new ScrollPane();
     //scrollPane.setFitToWidth(true);
@@ -168,9 +195,20 @@ public class DashboardController implements Initializable {
     bounceDefinition.getSelectionModel().select(0);
 
     //Context ComboBox
-    contextBox.getItems().addAll("Not specified", "Blog", "News", "Hobbies", "Travel","Shopping", "Social Media");
+    contextBox.getItems().addAll("Not specified", "Blog", "News", "Hobbies", "Travel", "Shopping", "Social Media");
     contextBox.getSelectionModel().select(0);
 
+    //Income ComboBox
+    incomeBox.getItems().addAll("Not specified", "Low", "Medium", "High");
+    incomeBox.getSelectionModel().select(0);
+
+    //Gender ComboBox
+    genderBox.getItems().addAll("Not specified", "Male", "Female");
+    genderBox.getSelectionModel().select(0);
+
+    //Age ComboBox
+    ageBox.getItems().addAll("Not specified", "<25", "25-34", "35-44", "45-54", ">54");
+    ageBox.getSelectionModel().select(0);
   }
 
   @FXML
@@ -206,11 +244,14 @@ public class DashboardController implements Initializable {
     // Run the calculations on a background thread to keep the application responsive
     new Thread(() -> {
 
-      if(dateChanged || intervalChanged || bounceChanged || contextChanged){
+      if(dateChanged || intervalChanged || bounceChanged || contextChanged || incomeChanged || ageChanged || genderChanged){
         dateChanged = false;
         intervalChanged = false;
         bounceChanged = false;
         contextChanged = false;
+        incomeChanged = false;
+        ageChanged = false;
+        genderChanged = false;
 
         Platform.runLater(() -> lineGraph.getData().clear());
 

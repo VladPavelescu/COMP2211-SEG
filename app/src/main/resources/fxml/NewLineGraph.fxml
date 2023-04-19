@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.soton.comp2211.controllers.DashboardController" stylesheets="@../css/newGraphWindowTheme.css">
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.soton.comp2211.controllers.DashboardController">
   <children>
     <GridPane alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="845.0">
       <columnConstraints>
@@ -42,12 +42,12 @@
             <NumberAxis fx:id="y" side="LEFT" />
           </yAxis>
         </LineChart>
-        <Button fx:id="costBut" alignment="CENTER" mnemonicParsing="false" onAction="#buttonAction" text="Total Click Cost" translateX="-100.0" translateY="-10.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+        <Button fx:id="costBut" alignment="CENTER" mnemonicParsing="false" onAction="#buttonAction" text="Total Click Cost" translateX="-40.0" translateY="-10.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
           <GridPane.margin>
             <Insets />
           </GridPane.margin>
         </Button>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" translateY="-30.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" translateY="-20.0">
           <children>
             <Label contentDisplay="CENTER" text="Start date" />
             <DatePicker fx:id="start_date" promptText="Select start date" />
@@ -55,25 +55,43 @@
             <DatePicker fx:id="end_date" prefWidth="169.0" promptText="Select end date" />
           </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="2" translateY="-140.0" translateX="-100">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2" translateY="-30.0" >
           <children>
             <Label contentDisplay="CENTER" text="Time Interval" />
             <ComboBox fx:id="intervalBox" prefWidth="150.0" />
           </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="3" translateY="-140.0" translateX="-100">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="1" translateY="-140.0" translateX="-100">
+          <children>
+            <Label contentDisplay="CENTER" text="Bounce" />
+            <ComboBox fx:id="bounceDefinition" prefWidth="150.0" />
+          </children>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="2" translateY="-140.0" translateX="-100">
           <children>
             <Label contentDisplay="CENTER" text="Context" />
             <ComboBox fx:id="contextBox" prefWidth="150.0" />
           </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="4" translateY="-140.0" translateX="-100">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="3" translateY="-140.0" translateX="-100">
           <children>
-            <Label contentDisplay="CENTER" text="Define Bounce" />
-            <ComboBox fx:id="bounceDefinition" prefWidth="150.0" />
+            <Label contentDisplay="CENTER" text="Income" />
+            <ComboBox fx:id="incomeBox" prefWidth="150.0" />
           </children>
         </VBox>
-        <ScrollPane fx:id="metricsScrollPane" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED" prefHeight="248.0" prefWidth="165.0" GridPane.rowIndex="2" GridPane.valignment="BASELINE">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="4" translateY="-140.0" translateX="-100">
+          <children>
+            <Label contentDisplay="CENTER" text="Age" />
+            <ComboBox fx:id="ageBox" prefWidth="150.0" />
+          </children>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.columnIndex="5" translateY="-140.0" translateX="-100">
+          <children>
+            <Label contentDisplay="CENTER" text="Gender" />
+            <ComboBox fx:id="genderBox" prefWidth="150.0" />
+          </children>
+        </VBox>
+        <ScrollPane fx:id="metricsScrollPane" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED" prefHeight="248.0" prefWidth="165.0" GridPane.rowIndex="3" GridPane.valignment="BASELINE" translateY="-30.0">
           <content>
             <VBox fx:id="metricsVBox" prefHeight="248.0" prefWidth="165.0" spacing="3.0">
               <children>
