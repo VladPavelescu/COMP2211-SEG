@@ -25,16 +25,16 @@ public class SQLGenerator {
 
         String filters = "";
 
-        if (context != null && !context.equals("Not specified")) {
+        if (context != null && !context.equals("")) {
             filters = filters + " AND context = '" + context + "'";
         }
-        if (income != null && !income.equals("Not specified")) {
+        if (income != null && !income.equals("")) {
             filters = filters + " AND income = '" + income + "'";
         }
-        if (age != null && !age.equals("Not specified")) {
+        if (age != null && !age.equals("")) {
             filters = filters + " AND age = '" + age + "'";
         }
-        if (gender != null && !gender.equals("Not specified")) {
+        if (gender != null && !gender.equals("")) {
             filters = filters + " AND gender = '" + gender + "'";
         }
 

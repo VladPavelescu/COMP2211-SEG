@@ -195,19 +195,19 @@ public class DashboardController implements Initializable {
     bounceDefinition.getSelectionModel().select(0);
 
     //Context ComboBox
-    contextBox.getItems().addAll("Not specified", "Blog", "News", "Hobbies", "Travel", "Shopping", "Social Media");
+    contextBox.getItems().addAll("", "Blog", "News", "Hobbies", "Travel", "Shopping", "Social Media");
     contextBox.getSelectionModel().select(0);
 
     //Income ComboBox
-    incomeBox.getItems().addAll("Not specified", "Low", "Medium", "High");
+    incomeBox.getItems().addAll("", "Low", "Medium", "High");
     incomeBox.getSelectionModel().select(0);
 
     //Gender ComboBox
-    genderBox.getItems().addAll("Not specified", "Male", "Female");
+    genderBox.getItems().addAll("", "Male", "Female");
     genderBox.getSelectionModel().select(0);
 
     //Age ComboBox
-    ageBox.getItems().addAll("Not specified", "<25", "25-34", "35-44", "45-54", ">54");
+    ageBox.getItems().addAll("", "<25", "25-34", "35-44", "45-54", ">54");
     ageBox.getSelectionModel().select(0);
   }
 

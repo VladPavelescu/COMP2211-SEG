@@ -52,9 +52,9 @@
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" translateY="-20.0">
           <children>
             <Label contentDisplay="CENTER" text="Start date" />
-            <DatePicker fx:id="start_date" promptText="Select start date" />
+            <DatePicker fx:id="start_date" promptText="Select start date"  showWeekNumbers="false"/>
             <Label text="End date" />
-            <DatePicker fx:id="end_date" prefWidth="169.0" promptText="Select end date" />
+            <DatePicker fx:id="end_date" prefWidth="169.0" promptText="Select end date" showWeekNumbers="false"/>
           </children>
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2" translateY="-30.0" >
