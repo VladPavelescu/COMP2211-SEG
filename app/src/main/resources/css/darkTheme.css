@@ -1,5 +1,5 @@
 .menu-background {
-  -fx-background-color: #303030;
+  -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 50% , #202020, #303030);
   -fx-background-size: cover;
 }
 
