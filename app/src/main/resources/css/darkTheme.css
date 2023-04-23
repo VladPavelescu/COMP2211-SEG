@@ -19,8 +19,17 @@
   -fx-text-fill: white;
 }
 
+.hbox {
+    -fx-border-color: white;
+    -fx-padding: 5;
+    -fx-font-size: 5px;
+    -fx-border-radius: 10px;
+    -fx-border-insets: 10px;
+    -fx-border-width: 1;
+}
+
 .label {
-  -fx-font-size: 24px;
+  -fx-font-size: 15px;
   -fx-font-weight: 700;
   -fx-text-fill: #D6C49E;
 }
@@ -34,16 +43,20 @@
 }
 
 .button {
-    -fx-pref-width: 200px;
-    -fx-background-color: #212121;
+    -fx-pref-width: 150px;
+    -fx-background-color: transparent;
     -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-font-weight: 700;
-    -fx-border-radius: 10px;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1.5;
+    -fx-background-radius: 15px;
+    -fx-border-color: white;
 }
 
 .button:hover{
     -fx-text-fill: #D6C49E;
+    -fx-border-color: #D6C49E;
 }
 
 .scroll-pane {

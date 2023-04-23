@@ -78,9 +78,9 @@ public class MenuScene extends BaseScene {
     selectedImage.setImage(image);
 
     //placeholder label for the app
-    var label = new Label("Ad Auction Dashboard");
-    mainPane.setTop(label);
-    BorderPane.setAlignment(label, Pos.CENTER);
+    //var label = new Label("Ad Auction Dashboard");
+    //mainPane.setTop(label);
+    //BorderPane.setAlignment(label, Pos.CENTER);
 
     //HBox for the buttons displayed on the menu
     var hbox = new HBox();
@@ -97,14 +97,15 @@ public class MenuScene extends BaseScene {
     vbox.setSpacing(100);
     
     //VBox to display the file names
-    var fileBox = new VBox();
+    var fileBox = new HBox();
     mainPane.setBottom(fileBox);
-    BorderPane.setAlignment(fileBox, Pos.CENTER);
-    fileBox.setAlignment(Pos.CENTER);
+    BorderPane.setAlignment(fileBox, Pos.BASELINE_LEFT);
+    fileBox.setAlignment(Pos.BASELINE_LEFT);
     fileBox.setSpacing(10);
-    var importLabel = new Label("Imported Files");
+    var importLabel = new Label("Imported Files:");
     importLabel.setUnderline(true);
     fileBox.getChildren().add(importLabel);
+    fileBox.getStyleClass().add("hbox");
 
     vbox.getChildren().addAll(selectedImage, hbox);
 
