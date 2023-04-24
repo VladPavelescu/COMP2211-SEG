@@ -132,6 +132,7 @@ public class SettingsScene extends BaseScene{
       if(!SettingsManager.isDarkThemeEnabled()) {
         SettingsManager.enableDarkTheme(scene);
         logger.info("User set dark theme");
+        updateScene();
       }
     });
 

@@ -40,11 +40,33 @@ public abstract class BaseScene {
    */
   public Scene setScene() {
     var previous = appWindow.getScene();
-    Scene scene = new Scene(root, previous.getWidth(), previous.getHeight(), Color.BLACK);
+
+    Color color = Color.TRANSPARENT;
+    Scene scene;
+    switch (SettingsManager.getTheme()) {
+      case "DEFAULT_THEME" -> color = Color.rgb(150, 195, 215);
+      case "DARK_THEME" -> color = Color.rgb(48, 48, 48);
+      case "LIGHT_THEME" -> color = Color.rgb(255, 255, 255);
+    }
+    scene = new Scene(root, previous.getWidth(), previous.getHeight(), color);
+
 //    scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
     this.scene = scene;
     SettingsManager.setTheme(scene);
     return scene;
+  }
+
+  public void updateScene() {
+    var previous = appWindow.getScene();
+    Color color = Color.TRANSPARENT;
+    Scene scene;
+    switch (SettingsManager.getTheme()) {
+      case "DEFAULT_THEME" -> color = Color.rgb(150, 195, 215);
+      case "DARK_THEME" -> color = Color.rgb(48, 48, 48);
+      case "LIGHT_THEME" -> color = Color.rgb(255, 255, 255);
+    }
+    scene = new Scene(root, previous.getWidth(), previous.getHeight(), color);
+    SettingsManager.setTheme(scene);
   }
 
   /**

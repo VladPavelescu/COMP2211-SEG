@@ -2,6 +2,7 @@ package uk.ac.soton.comp2211.utility;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import uk.ac.soton.comp2211.scenes.BaseScene;
 
 public class SettingsManager {
 
@@ -102,5 +103,15 @@ public class SettingsManager {
       }
     }
 
+  }
+
+  public static String getTheme() {
+    if (isDefaultThemeEnabled) {
+      return "DEFAULT_THEME";
+    } else if (isDarkThemeEnabled) {
+      return "DARK_THEME";
+    } else {
+      return "LIGHT_THEME";
+    }
   }
 }

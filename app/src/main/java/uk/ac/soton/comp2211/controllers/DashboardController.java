@@ -100,6 +100,7 @@ public class DashboardController implements Initializable {
 
     metricsScrollPane.getStyleClass().add("scroll-pane");
     metricsScrollPane.setMinViewportHeight(200);
+    metricsScrollPane.fitToWidthProperty();
 
     //Update graph when date is updated
     start_date.setOnAction(e -> {
