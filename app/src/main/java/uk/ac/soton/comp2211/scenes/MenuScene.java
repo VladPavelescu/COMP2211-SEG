@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
@@ -134,9 +135,13 @@ public class MenuScene extends BaseScene {
           // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
           Platform.runLater(() -> {
             stackPane.getChildren().remove(progressIndicator);
+            DialogPane dialog;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("File upload");
             alert.setContentText("The file has been successfully uploaded!");
+            dialog = alert.getDialogPane();
+            dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
+            dialog.getStyleClass().add("dialog-pane");
             alert.show();
           });
         }).start();

@@ -3,6 +3,8 @@ package uk.ac.soton.comp2211.scenes;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
@@ -132,7 +134,6 @@ public class SettingsScene extends BaseScene{
       if(!SettingsManager.isDarkThemeEnabled()) {
         SettingsManager.enableDarkTheme(scene);
         logger.info("User set dark theme");
-        updateScene();
       }
     });
 
@@ -145,6 +146,7 @@ public class SettingsScene extends BaseScene{
 
     infoButton.setOnAction(event -> {
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      DialogPane dialog;
       alert.setTitle("Metric Information");
       alert.setContentText("This popup intends to give detail to the terms used in the program to aid the user in their understanding.\n" +
               "\n" +
@@ -171,6 +173,10 @@ public class SettingsScene extends BaseScene{
               "uniquesCount: Tally of how many unique users perform a click\n" +
               "\n" +
               "Total Click Cost: Cost of all clicks in a campaign");
+
+      dialog = alert.getDialogPane();
+      dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
+      dialog.getStyleClass().add("dialog-pane");
       alert.show();
     });
 

@@ -7,6 +7,10 @@
     -fx-background-color: #FFFFFF;
 }
 
+.progress-indicator {
+    -fx-accent: rgba(0, 0, 0, 0.85);
+}
+
 .menu-item {
   -fx-background-color:grey;
   -fx-text-fill: #7F796C;
