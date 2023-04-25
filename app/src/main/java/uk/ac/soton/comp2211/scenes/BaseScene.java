@@ -55,7 +55,7 @@ public abstract class BaseScene {
     SettingsManager.setTheme(scene);
     return scene;
   }
-
+/*
   public void updateScene() {
     var previous = appWindow.getScene();
     Color color = Color.TRANSPARENT;
@@ -67,7 +67,7 @@ public abstract class BaseScene {
     }
     scene = new Scene(root, previous.getWidth(), previous.getHeight(), color);
     SettingsManager.setTheme(scene);
-  }
+  }*/
 
   /**
    * Get the JavaFX scene contained inside

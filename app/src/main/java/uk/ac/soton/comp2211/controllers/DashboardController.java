@@ -1,5 +1,6 @@
 package uk.ac.soton.comp2211.controllers;
 
+import javafx.concurrent.Task;
 import javafx.scene.control.ScrollPane;
 
 import java.net.URL;
@@ -24,7 +25,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.soton.comp2211.logic.SQLExecutor;
+import uk.ac.soton.comp2211.scenes.BaseScene;
+import uk.ac.soton.comp2211.scenes.DashboardScene;
 import uk.ac.soton.comp2211.utility.SettingsManager;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.WritableImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 
 public class DashboardController implements Initializable {
 
@@ -48,6 +56,8 @@ public class DashboardController implements Initializable {
 
   @FXML
   public Button backButton;
+
+  @FXML Button snapshotButton;
 
   @FXML
   private VBox metricsVBox;
@@ -146,6 +156,27 @@ public class DashboardController implements Initializable {
     genderBox.setOnAction(e -> {
       genderChanged = true;
       loadData();
+    });
+
+    snapshotButton.setOnAction(e -> {
+      // Get a reference to the FXML content displayed in the StackPane
+      Node fxmlRootNode = stackPane.getChildren().get(0);
+
+      // Create a new WritableImage with the same dimensions as the root node
+      WritableImage image = new WritableImage((int)fxmlRootNode.getBoundsInLocal().getWidth(), (int)fxmlRootNode.getBoundsInLocal().getHeight());
+
+      // Take a snapshot of the root node
+      fxmlRootNode.snapshot(null, image);
+
+      // Choose a file to save the image
+      File file = new File("snapshot.png");
+
+      // Save the image as a PNG file
+      try {
+        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+      } catch (IOException ex) {
+        System.out.println("Error saving snapshot: " + ex.getMessage());
+      }
     });
 
     // Alternative in Histogram.fxml

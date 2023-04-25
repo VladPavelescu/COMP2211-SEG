@@ -42,13 +42,14 @@
             <NumberAxis fx:id="y" side="LEFT" />
           </yAxis>
         </LineChart>
-        <Button fx:id="newGraph" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonAction" prefHeight="36.0" prefWidth="73.0" text="New Graph" translateX="-360.0" translateY="-10.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM"/>
-        <Button fx:id="costBut" alignment="CENTER" mnemonicParsing="false" onAction="#buttonAction" text="Total Click Cost" translateX="-40.0" translateY="-10.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+        <Button fx:id="snapshotButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonAction" prefHeight="36.0" prefWidth="73.0" text="Save Graph" translateX="-410.0" translateY="-10.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM"/>
+        <Button fx:id="newGraph" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonAction" prefHeight="36.0" prefWidth="73.0" text="New Graph" translateX="-260.0" translateY="-10.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM"/>
+        <Button fx:id="costBut" alignment="CENTER" mnemonicParsing="false" onAction="#buttonAction" text="Total Click Cost" translateX="35.0" translateY="-10.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
           <GridPane.margin>
             <Insets />
           </GridPane.margin>
         </Button>
-        <Button fx:id="backButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="73.0" text="Back" translateX="-10.0" translateY="-10.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM"/>
+        <Button fx:id="backButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="73.0" text="Back" translateX="40.0" translateY="-10.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM"/>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" translateY="-20.0">
           <children>
             <Label contentDisplay="CENTER" text="Start date" />
