@@ -5,7 +5,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane prefHeight="221.0" prefWidth="316.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane prefHeight="588.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.soton.comp2211.controllers.HistogramController">
    <children>
       <BarChart fx:id="costHistogram" barGap="0.0" categoryGap="0.0" prefHeight="339.0" prefWidth="512.0" title="Total Click Cost">
          <xAxis>

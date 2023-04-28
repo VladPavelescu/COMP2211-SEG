@@ -5,14 +5,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import uk.ac.soton.comp2211.scenes.MenuScene;
 import uk.ac.soton.comp2211.ui.AppWindow;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 /**
@@ -38,6 +36,7 @@ public class App extends Application {
 
   /**
    * Start the game
+   *
    * @param args commandline arguments
    */
   public static void main(String[] args) {
@@ -46,7 +45,9 @@ public class App extends Application {
   }
 
   /**
-   * Called by JavaFX with the primary stage as a parameter. Begins the game by opening the Game Window
+   * Called by JavaFX with the primary stage as a parameter. Begins the game by opening the Game
+   * Window
+   *
    * @param stage the default stage, main window
    */
   @Override
@@ -119,6 +120,7 @@ public class App extends Application {
 
   /**
    * Get the singleton App instance
+   *
    * @return the app
    */
   public static App getInstance() {

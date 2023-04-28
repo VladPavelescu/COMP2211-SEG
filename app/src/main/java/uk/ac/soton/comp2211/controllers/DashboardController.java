@@ -57,7 +57,8 @@ public class DashboardController implements Initializable {
   @FXML
   public Button backButton;
 
-  @FXML Button snapshotButton;
+  @FXML
+  Button snapshotButton;
 
   @FXML
   private VBox metricsVBox;
@@ -100,7 +101,7 @@ public class DashboardController implements Initializable {
   private boolean incomeChanged;
 
   private boolean ageChanged;
-  
+
   private boolean genderChanged;
 
   @Override
@@ -163,7 +164,7 @@ public class DashboardController implements Initializable {
       //create snapshot directory
       String snapshotsPath = "\\" + System.getProperty("user.dir") + "\\snapshots";
       File dir = new File(snapshotsPath);
-      if(!dir.exists()) {
+      if (!dir.exists()) {
         dir.mkdir();
       }
 
@@ -171,7 +172,8 @@ public class DashboardController implements Initializable {
       Node fxmlRootNode = stackPane.getChildren().get(0);
 
       // Create a new WritableImage with the same dimensions as the root node
-      WritableImage image = new WritableImage((int)fxmlRootNode.getBoundsInLocal().getWidth(), (int)fxmlRootNode.getBoundsInLocal().getHeight());
+      WritableImage image = new WritableImage((int) fxmlRootNode.getBoundsInLocal().getWidth(),
+          (int) fxmlRootNode.getBoundsInLocal().getHeight());
 
       // Take a snapshot of the root node
       fxmlRootNode.snapshot(null, image);
@@ -187,7 +189,8 @@ public class DashboardController implements Initializable {
         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Snapshot saved");
-        alert.setContentText("The snapshot has been successfully saved to: "+ snapshotsPath + "\\" + formatter.format(now) + ".png");
+        alert.setContentText("The snapshot has been successfully saved to: " + snapshotsPath + "\\"
+            + formatter.format(now) + ".png");
         alert.show();
       } catch (IOException ex) {
         System.out.println("Error saving snapshot: " + ex.getMessage());
@@ -238,11 +241,12 @@ public class DashboardController implements Initializable {
     intervalBox.getSelectionModel().select(1);
 
     //Bounce definition ComboBox
-    bounceDefinition.getItems().addAll("Short Time Spent","Single Page Visits");
+    bounceDefinition.getItems().addAll("Short Time Spent", "Single Page Visits");
     bounceDefinition.getSelectionModel().select(0);
 
     //Context ComboBox
-    contextBox.getItems().addAll("", "Blog", "News", "Hobbies", "Travel", "Shopping", "Social Media");
+    contextBox.getItems()
+        .addAll("", "Blog", "News", "Hobbies", "Travel", "Shopping", "Social Media");
     contextBox.getSelectionModel().select(0);
 
     //Income ComboBox
@@ -291,7 +295,8 @@ public class DashboardController implements Initializable {
     // Run the calculations on a background thread to keep the application responsive
     new Thread(() -> {
 
-      if(dateChanged || intervalChanged || bounceChanged || contextChanged || incomeChanged || ageChanged || genderChanged){
+      if (dateChanged || intervalChanged || bounceChanged || contextChanged || incomeChanged
+          || ageChanged || genderChanged) {
         dateChanged = false;
         intervalChanged = false;
         bounceChanged = false;
@@ -305,7 +310,10 @@ public class DashboardController implements Initializable {
         for (String metric : metricsSelected) {
 
           //Retrieves all data values
-          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), metric, start_date.getValue().toString(), end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(), ageBox.getValue(), genderBox.getValue());
+          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(),
+              intervalBox.getValue(), metric, start_date.getValue().toString(),
+              end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(),
+              ageBox.getValue(), genderBox.getValue());
 
           Series<String, Number> series = new Series<>();
           series.setName(metric);
@@ -321,32 +329,35 @@ public class DashboardController implements Initializable {
           for (Data<String, Number> data : series.getData()) {
             // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
             Platform.runLater(
-                    () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                            event -> Tooltip.install(data.getNode(),
-                                    new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+                () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                    event -> Tooltip.install(data.getNode(),
+                        new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
           }
         }
       } else {
 
-          // If the series updated is already on the graph, remove it and return
-          for (Series<String, Number> series : lineGraph.getData()) {
-            if (series.getName().equals(changedMetric)) {
-              Platform.runLater(() -> {
-                lineGraph.getData().remove(series);
-                stackPane.getChildren().remove(progressIndicator);
-                allMetrics.forEach(c -> c.setDisable(false));
-                start_date.setDisable(false);
-                end_date.setDisable(false);
-              });
-              return;
-            }
+        // If the series updated is already on the graph, remove it and return
+        for (Series<String, Number> series : lineGraph.getData()) {
+          if (series.getName().equals(changedMetric)) {
+            Platform.runLater(() -> {
+              lineGraph.getData().remove(series);
+              stackPane.getChildren().remove(progressIndicator);
+              allMetrics.forEach(c -> c.setDisable(false));
+              start_date.setDisable(false);
+              end_date.setDisable(false);
+            });
+            return;
           }
+        }
 
         //Otherwise, create the series and add it to the graph
         Series<String, Number> series = new Series<>();
         series.setName(changedMetric);
 
-        String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(), intervalBox.getValue(), changedMetric, start_date.getValue().toString(), end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(), ageBox.getValue(), genderBox.getValue());
+        String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(),
+            intervalBox.getValue(), changedMetric, start_date.getValue().toString(),
+            end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(),
+            ageBox.getValue(), genderBox.getValue());
 
         for (String value : values) {
           String parts[] = value.split("\\t");
@@ -360,9 +371,9 @@ public class DashboardController implements Initializable {
         for (Data<String, Number> data : series.getData()) {
           // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
           Platform.runLater(
-                  () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                          event -> Tooltip.install(data.getNode(),
-                                  new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                  event -> Tooltip.install(data.getNode(),
+                      new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
         }
       }
 
@@ -375,89 +386,6 @@ public class DashboardController implements Initializable {
       });
     }).start();
   }
-
-//    new Thread(() -> {
-//
-//      var dates = SQLExecutor.getDates(start_date.getValue().toString(),
-//          end_date.getValue().toString());
-//
-//      // Update all selected metrics if the date was changed
-//      if (dateChanged) {
-//        dateChanged = false;
-//
-//        Platform.runLater(() -> lineGraph.getData().clear());
-//
-//        for (String metric : metricsSelected) {
-//          Series<String, Number> series = new Series<>();
-//          series.setName(metric);
-//
-//          for (LocalDate date : dates) {
-//            var value = SQLExecutor.executeSQL(date.toString(), metric)[0].trim();
-//            if (!value.equals("null")) {
-//              series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
-//            }
-//          }
-//
-//          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-//          Platform.runLater(() -> lineGraph.getData().add(series));
-//
-//          for (Data<String, Number> data : series.getData()) {
-//            // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-//            Platform.runLater(
-//                () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-//                    event -> Tooltip.install(data.getNode(),
-//                        new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
-//          }
-//        }
-//      } else {
-//
-//        // If the series updated is already on the graph, remove it and return
-//        for (Series<String, Number> series : lineGraph.getData()) {
-//          if (series.getName().equals(changedMetric)) {
-//            Platform.runLater(() -> {
-//              lineGraph.getData().remove(series);
-//              stackPane.getChildren().remove(progressIndicator);
-//              allMetrics.forEach(c -> c.setDisable(false));
-//              start_date.setDisable(false);
-//              end_date.setDisable(false);
-//            });
-//            return;
-//          }
-//        }
-//
-//        //Otherwise, create the series and add it to the graph
-//
-//        Series<String, Number> series = new Series<>();
-//        series.setName(changedMetric);
-//
-//        for (LocalDate date : dates) {
-//          var value = SQLExecutor.executeSQL(date.toString(), changedMetric)[0].trim();
-//          if (!value.equals("null")) {
-//            series.getData().add(new Data<>(date.toString(), Double.parseDouble(value)));
-//          }
-//        }
-//
-//        // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-//        Platform.runLater(() -> lineGraph.getData().add(series));
-//
-//        for (Data<String, Number> data : series.getData()) {
-//          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-//          Platform.runLater(
-//              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-//                  event -> Tooltip.install(data.getNode(),
-//                      new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
-//        }
-//      }
-//
-//      // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-//      Platform.runLater(() -> {
-//        stackPane.getChildren().remove(progressIndicator);
-//        allMetrics.forEach(c -> c.setDisable(false));
-//        start_date.setDisable(false);
-//        end_date.setDisable(false);
-//      });
-//    }).start();
-//  }
 
   @FXML
   private void buttonAction(ActionEvent event) {
@@ -474,12 +402,15 @@ public class DashboardController implements Initializable {
   private void openHistogram() {
     try {
       FXMLLoader newPane = new FXMLLoader(getClass().getResource("/fxml/Histogram.fxml"));
-      Parent root1 = newPane.load();
+      Pane root1 = newPane.load();
+      root1.getStyleClass().add("menu-background");
+      SettingsManager.setTheme(root1);
       Stage stage = new Stage();
-      stage.setTitle("Total Click Cost");
+      stage.setTitle("Line Graph");
       stage.setScene(new Scene(root1));
       stage.show();
-    } catch (Exception ignored) {
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 

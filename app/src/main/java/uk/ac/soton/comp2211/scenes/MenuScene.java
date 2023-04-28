@@ -96,7 +96,7 @@ public class MenuScene extends BaseScene {
     BorderPane.setAlignment(vbox, Pos.CENTER);
     vbox.setAlignment(Pos.CENTER);
     vbox.setSpacing(100);
-    
+
     //VBox to display the file names
     var fileBox = new HBox();
     mainPane.setBottom(fileBox);
@@ -122,8 +122,8 @@ public class MenuScene extends BaseScene {
 
         // Add progress indicator to stackPane and set size
         stackPane.getChildren().add(progressIndicator);
-        progressIndicator.setMaxSize(appWindow.getWidth()/4,appWindow.getWidth()/4);
-        
+        progressIndicator.setMaxSize(appWindow.getWidth() / 4, appWindow.getWidth() / 4);
+
         // Add the selected file to the list of files imported
         fileBox.getChildren().add(new Label(selectedFile.getName()));
 

@@ -12,6 +12,7 @@ import uk.ac.soton.comp2211.scenes.BaseScene;
 import uk.ac.soton.comp2211.scenes.DashboardScene;
 import uk.ac.soton.comp2211.scenes.MenuScene;
 import uk.ac.soton.comp2211.scenes.SettingsScene;
+import uk.ac.soton.comp2211.utility.SettingsManager;
 
 public class AppWindow {
 
@@ -90,7 +91,14 @@ public class AppWindow {
   }
 
   private void setupDefaultScene() {
-    this.scene = new Scene(new Pane(), width, height, Color.BLACK);
+    Color color = Color.TRANSPARENT;
+    Scene scene;
+    switch (SettingsManager.getTheme()) {
+      case "DEFAULT_THEME" -> color = Color.rgb(150, 195, 215);
+      case "DARK_THEME" -> color = Color.rgb(48, 48, 48);
+      case "LIGHT_THEME" -> color = Color.rgb(255, 255, 255);
+    }
+    this.scene = new Scene(new Pane(), width, height, color);
     stage.setScene(this.scene);
   }
 

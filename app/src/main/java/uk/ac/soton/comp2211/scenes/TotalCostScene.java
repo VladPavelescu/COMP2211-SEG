@@ -1,26 +1,47 @@
 package uk.ac.soton.comp2211.scenes;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
+import uk.ac.soton.comp2211.controllers.DashboardController;
+import uk.ac.soton.comp2211.ui.AppWindow;
+import uk.ac.soton.comp2211.ui.GamePane;
 
-import java.io.IOException;
+public class TotalCostScene extends BaseScene {
 
-public class TotalCostScene extends Application {
-
-    public static void main(String[] args) {
-        launch(args);
+    public TotalCostScene(AppWindow appWindow) {
+        super(appWindow);
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void initialise() {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(TotalCostScene.class.getResource("/fxml/Histogram.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
-        stage.setTitle("Total Click Cost");
-        stage.setScene(scene);
-        stage.show();
+        root.getScene().setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                appWindow.startMenu();
+            }
+        });
+
+    }
+
+    @Override
+    public void build() {
+
+        root = new GamePane(appWindow.getWidth(), appWindow.getHeight());
+
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(DashboardScene.class.getResource("/fxml/Histogram.fxml"));
+            Pane newPane = fxmlLoader.load();
+            newPane.getStyleClass().add("menu-background");
+            root.getChildren().add(newPane);
+
+            //Add functionality to the back button
+            DashboardController controller = fxmlLoader.getController();
+            controller.backButton.setOnAction(e -> appWindow.startMenu());
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

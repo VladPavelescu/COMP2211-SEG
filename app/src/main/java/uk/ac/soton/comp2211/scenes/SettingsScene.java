@@ -1,6 +1,7 @@
 package uk.ac.soton.comp2211.scenes;
 
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
@@ -10,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -126,6 +128,13 @@ public class SettingsScene extends BaseScene{
     defaultTheme.setOnAction(event -> {
       if(!SettingsManager.isDefaultThemeEnabled()) {
         SettingsManager.enableDefaultTheme(scene);
+        Color color = Color.TRANSPARENT;
+        switch (SettingsManager.getTheme()) {
+          case "DEFAULT_THEME" -> color = Color.rgb(150, 195, 215);
+          case "DARK_THEME" -> color = Color.rgb(48, 48, 48);
+          case "LIGHT_THEME" -> color = Color.rgb(255, 255, 255);
+        }
+        scene.setFill(color);
         logger.info("User set default theme");
       }
     });
@@ -133,6 +142,13 @@ public class SettingsScene extends BaseScene{
     darkTheme.setOnAction(event -> {
       if(!SettingsManager.isDarkThemeEnabled()) {
         SettingsManager.enableDarkTheme(scene);
+        Color color = Color.TRANSPARENT;
+        switch (SettingsManager.getTheme()) {
+          case "DEFAULT_THEME" -> color = Color.rgb(150, 195, 215);
+          case "DARK_THEME" -> color = Color.rgb(48, 48, 48);
+          case "LIGHT_THEME" -> color = Color.rgb(255, 255, 255);
+        }
+        scene.setFill(color);
         logger.info("User set dark theme");
       }
     });
@@ -140,6 +156,13 @@ public class SettingsScene extends BaseScene{
     lightTheme.setOnAction(event -> {
       if(!SettingsManager.isLightThemeEnabled()) {
         SettingsManager.enableLightTheme(scene);
+        Color color = Color.TRANSPARENT;
+        switch (SettingsManager.getTheme()) {
+          case "DEFAULT_THEME" -> color = Color.rgb(150, 195, 215);
+          case "DARK_THEME" -> color = Color.rgb(48, 48, 48);
+          case "LIGHT_THEME" -> color = Color.rgb(255, 255, 255);
+        }
+        scene.setFill(color);
         logger.info("User set light theme");
       }
     });
