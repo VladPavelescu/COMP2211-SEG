@@ -1,6 +1,8 @@
 package uk.ac.soton.comp2211.controllers;
 
-import javafx.concurrent.Task;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 
 import java.net.URL;
@@ -25,8 +27,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.soton.comp2211.logic.SQLExecutor;
-import uk.ac.soton.comp2211.scenes.BaseScene;
-import uk.ac.soton.comp2211.scenes.DashboardScene;
 import uk.ac.soton.comp2211.utility.SettingsManager;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.WritableImage;
@@ -159,6 +159,14 @@ public class DashboardController implements Initializable {
     });
 
     snapshotButton.setOnAction(e -> {
+
+      //create snapshot directory
+      String snapshotsPath = "\\" + System.getProperty("user.dir") + "\\snapshots";
+      File dir = new File(snapshotsPath);
+      if(!dir.exists()) {
+        dir.mkdir();
+      }
+
       // Get a reference to the FXML content displayed in the StackPane
       Node fxmlRootNode = stackPane.getChildren().get(0);
 
@@ -168,12 +176,19 @@ public class DashboardController implements Initializable {
       // Take a snapshot of the root node
       fxmlRootNode.snapshot(null, image);
 
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+      LocalDateTime now = LocalDateTime.now();
+
       // Choose a file to save the image
-      File file = new File("snapshot.png");
+      File file = new File(snapshotsPath + "\\" + formatter.format(now) + ".png");
 
       // Save the image as a PNG file
       try {
         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Snapshot saved");
+        alert.setContentText("The snapshot has been successfully saved to: "+ snapshotsPath + "\\" + formatter.format(now) + ".png");
+        alert.show();
       } catch (IOException ex) {
         System.out.println("Error saving snapshot: " + ex.getMessage());
       }
@@ -479,7 +494,8 @@ public class DashboardController implements Initializable {
       stage.setResizable(false);
       stage.setScene(new Scene(root1));
       stage.show();
-    } catch (Exception ignored) {
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
