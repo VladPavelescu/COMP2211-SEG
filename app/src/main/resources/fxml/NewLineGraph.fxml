@@ -34,7 +34,7 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
       <children>
-        <LineChart fx:id="lineGraph" animated="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="628.0" GridPane.columnIndex="1" GridPane.rowIndex="2" legendVisible="false">
+        <LineChart fx:id="lineGraph" animated="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="628.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
           <xAxis>
             <CategoryAxis side="BOTTOM" fx:id="x" />
           </xAxis>
