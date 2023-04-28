@@ -319,4 +319,8 @@ public class SQLGenerator {
 
     }
 
+    public static String getHistogramSQL(String lowerBound, String upperBound) {
+        return "SELECT count(click_cost) FROM click_log WHERE click_cost >= " + lowerBound + " and click_cost < " + upperBound +";";
+    }
+
 }
