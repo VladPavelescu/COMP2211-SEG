@@ -186,11 +186,15 @@ public class DashboardController implements Initializable {
 
       // Save the image as a PNG file
       try {
+        DialogPane dialog;
         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Snapshot saved");
         alert.setContentText("The snapshot has been successfully saved to: " + snapshotsPath + "\\"
             + formatter.format(now) + ".png");
+        dialog = alert.getDialogPane();
+        dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
+        dialog.getStyleClass().add("dialog-pane");
         alert.show();
       } catch (IOException ex) {
         System.out.println("Error saving snapshot: " + ex.getMessage());
