@@ -34,18 +34,36 @@ public class CSVServerLogReaderTest {
         database.delete();
     }
 
+    private static void close(Statement statement, ResultSet resultSet, Connection connection){
+        try{
+            if(statement != null){
+                statement.close();
+            }
+            if(resultSet != null){
+                resultSet.close();
+            }
+            if(connection != null){
+                connection.close();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void testCreateTable(){
         Switcher.readFirstLine(testFilePath, databasePath);
+
+        Connection connection = null;
+        ResultSet tables = null;
 
         try{
             List<String> testColumnNames = Arrays.asList("entry_date", "id", "exit_date", "pages_viewed", "conversion");
             List<String> columnNames = new ArrayList<>();
 
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
-
+            connection = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
             DatabaseMetaData metadata = connection.getMetaData();
-            ResultSet tables = metadata.getTables(null, null, null, new String[] {"TABLE"});
+            tables = metadata.getTables(null, null, null, new String[] {"TABLE"});
 
             while (tables.next()) {
                 String tableName = tables.getString("TABLE_NAME");
@@ -65,6 +83,8 @@ public class CSVServerLogReaderTest {
 
         } catch (Exception e){
             e.printStackTrace();
+        } finally {
+            close(null, tables, connection);
         }
 
     }
@@ -72,13 +92,17 @@ public class CSVServerLogReaderTest {
     @Test
     public void testCheckCorrectData(){
 
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
         try{
             List<String> testData = Arrays.asList("2015-01-01 12:01:01,1,2015-01-01 12:01:03,5,No", "2015-01-01 12:02:02,2,2015-01-01 12:02:04,6,Yes");
             List<String> data = new ArrayList<>();
 
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM  server_log");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM  server_log");
 
             while (resultSet.next()) {
 
@@ -97,6 +121,8 @@ public class CSVServerLogReaderTest {
         } catch (Exception e){
             e.printStackTrace();
             fail();
+        } finally {
+            close(statement, resultSet, connection);
         }
     }
 

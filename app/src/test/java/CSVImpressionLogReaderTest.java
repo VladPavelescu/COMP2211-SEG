@@ -31,6 +31,22 @@ public class CSVImpressionLogReaderTest {
         System.out.println(database.delete());
     }
 
+    private static void close(Statement statement, ResultSet resultSet, Connection connection){
+        try{
+            if(statement != null){
+                statement.close();
+            }
+            if(resultSet != null){
+                resultSet.close();
+            }
+            if(connection != null){
+                connection.close();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void testCreateTable(){
         Switcher.readFirstLine(testFilePath, databasePath);
@@ -73,22 +89,6 @@ public class CSVImpressionLogReaderTest {
             close(null, tables, connection);
         }
 
-    }
-
-    private static void close(Statement statement, ResultSet resultSet, Connection connection){
-       try{
-           if(statement != null){
-               statement.close();
-           }
-           if(resultSet != null){
-               resultSet.close();
-           }
-           if(connection != null){
-               connection.close();
-           }
-       } catch (Exception e){
-           e.printStackTrace();
-       }
     }
 
     @Test
