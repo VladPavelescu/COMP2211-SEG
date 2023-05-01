@@ -130,7 +130,7 @@ public class MenuScene extends BaseScene {
         // Run the calculations on a background thread to keep the application responsive
         new Thread(() -> {
           logger.info("Selected file: " + selectedFile.getAbsolutePath());
-          Switcher.readFirstLine(selectedFile.getAbsolutePath());
+          Switcher.readFirstLine(selectedFile.getAbsolutePath(), "logDatabase.db");
 
           // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
           Platform.runLater(() -> {
