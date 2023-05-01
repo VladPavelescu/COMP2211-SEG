@@ -10,7 +10,7 @@ public class Switcher {
 
   private static final Logger logger = LogManager.getLogger(Switcher.class);
 
-  public static void readFirstLine(String filePath) {
+  public static void readFirstLine(String filePath, String database) {
     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
       String firstLine = br.readLine();
       if (firstLine == null) {
@@ -20,7 +20,7 @@ public class Switcher {
       switch (fields.length) {
         case 3:
           if (fields[0].equals("Date") && fields[1].equals("ID") && fields[2].equals("Click Cost")) {
-            CSVClickLogReader.readFile(filePath);
+            CSVClickLogReader.readFile(filePath, database);
           } else {
             logger.error("File is in the wrong format.");
           }
@@ -29,7 +29,7 @@ public class Switcher {
           if (fields[0].equals("Date") && fields[1].equals("ID") && fields[2].equals("Gender")
               && fields[3].equals("Age") && fields[4].equals("Income") && fields[5].equals("Context")
               && fields[6].equals("Impression Cost")) {
-            CSVImpressionLogReader.readFile(filePath);
+            CSVImpressionLogReader.readFile(filePath, database);
           } else {
             logger.error("File is in the wrong format.");
           }
@@ -37,7 +37,7 @@ public class Switcher {
         case 5:
           if (fields[0].equals("Entry Date") && fields[1].equals("ID") && fields[2].equals("Exit Date")
               && fields[3].equals("Pages Viewed") && fields[4].equals("Conversion")) {
-            CSVServerLogReader.readFile(filePath);
+            CSVServerLogReader.readFile(filePath, database);
           } else {
             logger.error("File is in the wrong format.");
           }

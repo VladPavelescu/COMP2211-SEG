@@ -20,14 +20,14 @@ class CSVClickLogReader {
    * Reads the contents of a click_log csv file and writes the results to a database
    * @param filePath the path to the csv file
    */
-  public static void readFile(String filePath) {
+  public static void readFile(String filePath, String database) {
 
     BufferedReader bufferedReader = null;
     String line = "";
     String delimiter = ",";
 
     // Database connection details
-    String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
+    String currentPath = "/" + System.getProperty("user.dir") + "/" + database;
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
     logger.info("Writing to: " + jdbcUrl);
 
