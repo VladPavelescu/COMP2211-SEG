@@ -42,8 +42,8 @@
             <NumberAxis fx:id="y" side="LEFT" />
           </yAxis>
         </LineChart>
-        <Button fx:id="snapshotButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonAction" prefHeight="36.0" prefWidth="73.0" text="Save Graph" translateX="-410.0" translateY="-10.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM"/>
-        <Button fx:id="costBut" alignment="CENTER" mnemonicParsing="false" onAction="#buttonAction" text="Total Click Cost" translateX="-40.0" translateY="-10.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+        <Button fx:id="snapshotButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonAction" prefHeight="36.0" prefWidth="73.0" text="Save Graph" translateX="-250.0" translateY="-10.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM"/>
+        <Button fx:id="costBut" alignment="CENTER" mnemonicParsing="false" onAction="#buttonAction" text="Total Click Cost" translateX="50.0" translateY="-10.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
           <GridPane.margin>
             <Insets />
           </GridPane.margin>
