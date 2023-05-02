@@ -183,6 +183,96 @@ public class SQLGeneratorTest {
         assertArrayEquals(testResults, resultList);
     }
 
+    @Test
+    public void dateRangeTest(){
+        String[] resultList1 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-01", null, null, null, null);
+        String[] testResults1 = {"2015-01-01\t1\t"};
+
+        assertArrayEquals(testResults1, resultList1, "Date range of data returned is incorrect");
+
+        String[] resultList2 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-04", null, null, null, null);
+        String[] testResults2 = {"2015-01-01\t1\t", "2015-01-02\t1\t"};
+
+        assertArrayEquals(testResults2, resultList2, "Date range of data returned is incorrect");
+
+    }
+
+    @Test
+    public void contextFilterTest(){
+        String[] resultList1 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", "Blog", null, null, null);
+        String[] testResults1 = {"2015-01-01\t1\t"};
+
+        assertArrayEquals(testResults1, resultList1);
+
+        String[] resultList2 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", "News", null, null, null);
+        String[] testResults2 = {"2015-01-02\t1\t"};
+
+        assertArrayEquals(testResults2, resultList2);
+    }
+
+    @Test
+    public void incomeFilterTest(){
+        String[] resultList1 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", null, "High", null, null);
+        String[] testResults1 = {"2015-01-01\t1\t"};
+
+        assertArrayEquals(testResults1, resultList1);
+
+        String[] resultList2 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", null, "Medium", null, null);
+        String[] testResults2 = {"2015-01-02\t1\t"};
+
+        assertArrayEquals(testResults2, resultList2);
+    }
+
+    @Test
+    public void ageFilterTest(){
+        String[] resultList1 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", null, null, "25-34", null);
+        String[] testResults1 = {"2015-01-01\t1\t"};
+
+        assertArrayEquals(testResults1, resultList1);
+
+        String[] resultList2 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", null, null, "35-44", null);
+        String[] testResults2 = {"2015-01-02\t1\t"};
+
+        assertArrayEquals(testResults2, resultList2);
+    }
+
+    @Test
+    public void genderFilterTest(){
+        String[] resultList1 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", null, null, null, "Male");
+        String[] testResults1 = {"2015-01-01\t1\t"};
+
+        assertArrayEquals(testResults1, resultList1);
+
+        String[] resultList2 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", null, null, null, "Female");
+        String[] testResults2 = {"2015-01-02\t1\t"};
+
+        assertArrayEquals(testResults2, resultList2);
+    }
+
+    @Test
+    public void multipleFilterTest(){
+        String[] resultList1 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", "Blog", "High", "25-34", "Male");
+        String[] testResults1 = {"2015-01-01\t1\t"};
+
+        assertArrayEquals(testResults1, resultList1);
+
+        String[] resultList2 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", "News", "Medium", "35-44", "Female");
+        String[] testResults2 = {"2015-01-02\t1\t"};
+
+        assertArrayEquals(testResults2, resultList2);
+
+        //Empty cases
+        String[] resultList3 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", "Blog", "High", "25-34", "Female");
+        String[] testResults3 = {};
+
+        assertArrayEquals(testResults3, resultList3);
+
+        String[] resultList4 = sqlExecutor(null, "Daily", "clickCount", "2015-01-01", "2015-01-02", "Shopping", "High", "25-34", "Male");
+        String[] testResults4 = {};
+
+        assertArrayEquals(testResults4, resultList4);
+    }
+
 
 
 }
