@@ -79,7 +79,7 @@ public class CSVServerLogReaderTest {
             }
             connection.close();
 
-            assertEquals(testColumnNames, columnNames, "Server log table incorrect");
+            assertEquals(testColumnNames, columnNames, "The server_log table was not created. Likely because the column format in the input file is incorrect");
 
         } catch (Exception e){
             e.printStackTrace();
@@ -116,7 +116,7 @@ public class CSVServerLogReaderTest {
             }
             connection.close();
 
-            assertEquals(testData, data);
+            assertEquals(testData, data, "Data was not inputted into the database correctly");
 
         } catch (Exception e){
             e.printStackTrace();

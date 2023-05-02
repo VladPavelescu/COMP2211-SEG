@@ -79,7 +79,7 @@ public class CSVClickLogReaderTest {
             }
             connection.close();
 
-            assertEquals(testColumnNames, columnNames, "Click log table incorrect");
+            assertEquals(testColumnNames, columnNames, "The click_log table was not created. Likely because the column format in the input file is incorrect");
 
         } catch (Exception e){
             e.printStackTrace();
@@ -114,7 +114,7 @@ public class CSVClickLogReaderTest {
             }
             connection.close();
 
-            assertEquals(testData, data);
+            assertEquals(testData, data, "Data was not inputted into the database correctly");
 
         } catch (Exception e){
             e.printStackTrace();
