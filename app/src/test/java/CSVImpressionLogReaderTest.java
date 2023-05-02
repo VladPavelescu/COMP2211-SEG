@@ -99,7 +99,7 @@ public class CSVImpressionLogReaderTest {
         ResultSet resultSet = null;
 
         try{
-            List<String> testData = Arrays.asList("2015-01-01 12:01:01,1,Male,25-34,High,Blog,0.1", "2015-01-01 12:02:02,2,Female,35-44,Medium,News,0.2");
+            List<String> testData = Arrays.asList("2015-01-01 12:01:01,1,Male,25-34,High,Blog,0.1", "2015-01-02 12:02:02,2,Female,35-44,Medium,News,0.2");
             List<String> data = new ArrayList<>();
 
             connection = DriverManager.getConnection("jdbc:sqlite:" + databasePath);

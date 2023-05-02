@@ -97,7 +97,7 @@ public class CSVServerLogReaderTest {
         ResultSet resultSet = null;
 
         try{
-            List<String> testData = Arrays.asList("2015-01-01 12:01:01,1,2015-01-01 12:01:03,5,No", "2015-01-01 12:02:02,2,2015-01-01 12:02:04,6,Yes");
+            List<String> testData = Arrays.asList("2015-01-01 12:01:01,1,n/a,1,No", "2015-01-02 12:02:02,2,2015-01-02 12:02:04,6,Yes");
             List<String> data = new ArrayList<>();
 
             connection = DriverManager.getConnection("jdbc:sqlite:" + databasePath);

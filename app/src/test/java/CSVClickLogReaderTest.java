@@ -97,7 +97,7 @@ public class CSVClickLogReaderTest {
         ResultSet resultSet = null;
 
         try{
-            List<String> testData = Arrays.asList("2015-01-01 12:01:01,1,3.01", "2015-01-01 12:02:02,2,3.02");
+            List<String> testData = Arrays.asList("2015-01-01 12:01:01,1,3.01", "2015-01-02 12:02:02,2,3.02");
             List<String> data = new ArrayList<>();
 
             connection = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
