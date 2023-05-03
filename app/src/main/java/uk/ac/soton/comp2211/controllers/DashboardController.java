@@ -279,9 +279,7 @@ public class DashboardController implements Initializable {
     progressIndicator.setMaxSize(stackPane.getWidth() / 4, stackPane.getWidth() / 4);
 
     //Disable the metrics and dates while the thread is still working in the background
-    allMetrics.forEach(c -> c.setDisable(true));
-    start_date.setDisable(true);
-    end_date.setDisable(true);
+    setUIDisable(true);
 
     // Run the calculations on a background thread to keep the application responsive
     new Thread(() -> {
@@ -333,9 +331,7 @@ public class DashboardController implements Initializable {
             Platform.runLater(() -> {
               lineGraph.getData().remove(series);
               stackPane.getChildren().remove(progressIndicator);
-              allMetrics.forEach(c -> c.setDisable(false));
-              start_date.setDisable(false);
-              end_date.setDisable(false);
+              setUIDisable(false);
             });
             return;
           }
@@ -371,11 +367,25 @@ public class DashboardController implements Initializable {
       // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
       Platform.runLater(() -> {
         stackPane.getChildren().remove(progressIndicator);
-        allMetrics.forEach(c -> c.setDisable(false));
-        start_date.setDisable(false);
-        end_date.setDisable(false);
+        setUIDisable(false);
       });
     }).start();
+  }
+  
+  private void setUIDisable(Boolean bool) {
+    allMetrics.forEach(c -> c.setDisable(bool));
+    start_date.setDisable(bool);
+    end_date.setDisable(bool);
+    intervalBox.setDisable(bool);
+    bounceDefinition.setDisable(bool);
+    contextBox.setDisable(bool);
+    incomeBox.setDisable(bool);
+    ageBox.setDisable(bool);
+    genderBox.setDisable(bool);
+    snapshotButton.setDisable(bool);
+    newGraph.setDisable(bool);
+    costBut.setDisable(bool);
+    backButton.setDisable(bool);
   }
 
   @FXML

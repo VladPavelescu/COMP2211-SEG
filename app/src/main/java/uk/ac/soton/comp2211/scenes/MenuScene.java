@@ -110,9 +110,17 @@ public class MenuScene extends BaseScene {
 
     vbox.getChildren().addAll(selectedImage, hbox);
 
-    //
+    //Adding menu buttons to screen
     var loadFileButton = new Button("Upload log files");
     hbox.getChildren().add(loadFileButton);
+
+    var graphButton = new Button("Go to Graph");
+    hbox.getChildren().add(graphButton);
+
+    var settingsButton = new Button("Settings");
+    hbox.getChildren().add(settingsButton);
+
+    //Setting menu buttons functionality
     loadFileButton.setOnAction(e -> {
       File selectedFile = fileChooser.showOpenDialog(appWindow.getScene().getWindow());
       if (selectedFile != null) {
@@ -123,6 +131,11 @@ public class MenuScene extends BaseScene {
         // Add progress indicator to stackPane and set size
         stackPane.getChildren().add(progressIndicator);
         progressIndicator.setMaxSize(appWindow.getWidth() / 4, appWindow.getWidth() / 4);
+
+        //Disable menu buttons while file is being uploaded
+        loadFileButton.setDisable(true);
+        graphButton.setDisable(true);
+        settingsButton.setDisable(true);
 
         // Add the selected file to the list of files imported
         fileBox.getChildren().add(new Label(selectedFile.getName()));
@@ -135,6 +148,9 @@ public class MenuScene extends BaseScene {
           // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
           Platform.runLater(() -> {
             stackPane.getChildren().remove(progressIndicator);
+            loadFileButton.setDisable(false);
+            graphButton.setDisable(false);
+            settingsButton.setDisable(false);
             DialogPane dialog;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("File upload");
@@ -148,14 +164,10 @@ public class MenuScene extends BaseScene {
       }
     });
 
-    var graphButton = new Button("Go to Graph");
-    hbox.getChildren().add(graphButton);
     graphButton.setOnAction(e -> {
       appWindow.startDashboard();
     });
 
-    var settingsButton = new Button("Settings");
-    hbox.getChildren().add(settingsButton);
     settingsButton.setOnAction(e -> {
       appWindow.startSettingsScene();
     });
