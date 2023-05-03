@@ -52,7 +52,11 @@ public class CSVServerLogReaderTest {
 
     @Test
     public void testCreateTable(){
-        Switcher.readFirstLine(testFilePath, databasePath);
+        try {
+            Switcher.readFirstLine(testFilePath, databasePath);
+        } catch (Exception e) {
+            fail("Test file is in the wrong format");
+        }
 
         Connection connection = null;
         ResultSet tables = null;

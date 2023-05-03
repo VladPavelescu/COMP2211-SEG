@@ -137,29 +137,48 @@ public class MenuScene extends BaseScene {
         graphButton.setDisable(true);
         settingsButton.setDisable(true);
 
-        // Add the selected file to the list of files imported
-        fileBox.getChildren().add(new Label(selectedFile.getName()));
-
         // Run the calculations on a background thread to keep the application responsive
         new Thread(() -> {
           logger.info("Selected file: " + selectedFile.getAbsolutePath());
-          Switcher.readFirstLine(selectedFile.getAbsolutePath(), "logDatabase.db");
+          try {
+            Switcher.readFirstLine(selectedFile.getAbsolutePath(), "logDatabase.db");
 
-          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-          Platform.runLater(() -> {
-            stackPane.getChildren().remove(progressIndicator);
-            loadFileButton.setDisable(false);
-            graphButton.setDisable(false);
-            settingsButton.setDisable(false);
-            DialogPane dialog;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("File upload");
-            alert.setContentText("The file has been successfully uploaded!");
-            dialog = alert.getDialogPane();
-            dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
-            dialog.getStyleClass().add("dialog-pane");
-            alert.show();
-          });
+            // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+            Platform.runLater(() -> {
+              stackPane.getChildren().remove(progressIndicator);
+              loadFileButton.setDisable(false);
+              graphButton.setDisable(false);
+              settingsButton.setDisable(false);
+
+              // Add the selected file to the list of files imported
+              fileBox.getChildren().add(new Label(selectedFile.getName()));
+
+              DialogPane dialog;
+              Alert alert = new Alert(AlertType.INFORMATION);
+              alert.setTitle("File upload");
+              alert.setContentText("The file has been successfully uploaded!");
+              dialog = alert.getDialogPane();
+              dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
+              dialog.getStyleClass().add("dialog-pane");
+              alert.show();
+            });
+
+          } catch (Exception exception) {
+            Platform.runLater(() -> {
+              stackPane.getChildren().remove(progressIndicator);
+              loadFileButton.setDisable(false);
+              graphButton.setDisable(false);
+              settingsButton.setDisable(false);
+              DialogPane dialog;
+              Alert alert = new Alert(AlertType.ERROR);
+              alert.setTitle("File upload");
+              alert.setContentText(exception.getMessage());
+              dialog = alert.getDialogPane();
+              dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
+              dialog.getStyleClass().add("dialog-pane");
+              alert.show();
+            });
+          }
         }).start();
       }
     });

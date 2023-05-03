@@ -10,7 +10,7 @@ public class Switcher {
 
   private static final Logger logger = LogManager.getLogger(Switcher.class);
 
-  public static void readFirstLine(String filePath, String database) {
+  public static void readFirstLine(String filePath, String database) throws Exception{
     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
       String firstLine = br.readLine();
       if (firstLine == null) {
@@ -23,6 +23,7 @@ public class Switcher {
             CSVClickLogReader.readFile(filePath, database);
           } else {
             logger.error("File is in the wrong format.");
+            throw new Exception("File is in the wrong format.");
           }
           break;
         case 7:
@@ -32,6 +33,7 @@ public class Switcher {
             CSVImpressionLogReader.readFile(filePath, database);
           } else {
             logger.error("File is in the wrong format.");
+            throw new Exception("File is in the wrong format.");
           }
           break;
         case 5:
@@ -40,11 +42,12 @@ public class Switcher {
             CSVServerLogReader.readFile(filePath, database);
           } else {
             logger.error("File is in the wrong format.");
+            throw new Exception("File is in the wrong format.");
           }
           break;
         default:
           logger.error("The file you uploaded doesn't match any of the supported formats.");
-          break;
+          throw new Exception("The file you uploaded doesn't match any of the supported formats.");
       }
     } catch (IOException e) {
       e.printStackTrace();

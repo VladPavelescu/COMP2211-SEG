@@ -27,9 +27,21 @@ public class SQLGeneratorTest {
         String click_log = "src/test/java/testFiles/testClickLog.csv";
         String impression_log = "src/test/java/testFiles/testImpressionLog.csv";
 
-        Switcher.readFirstLine(server_log, databasePath);
-        Switcher.readFirstLine(click_log, databasePath);
-        Switcher.readFirstLine(impression_log, databasePath);
+        try {
+            Switcher.readFirstLine(server_log, databasePath);
+        } catch (Exception e) {
+            fail("server_log is in the wrong format");
+        }
+        try {
+            Switcher.readFirstLine(click_log, databasePath);
+        } catch (Exception e) {
+            fail("click_log is in the wrong format");
+        }
+        try {
+            Switcher.readFirstLine(impression_log, databasePath);
+        } catch (Exception e) {
+            fail("server_log is in the wrong format");
+        }
 
     }
 
