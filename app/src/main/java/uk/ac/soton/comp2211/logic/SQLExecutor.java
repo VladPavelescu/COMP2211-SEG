@@ -104,7 +104,7 @@ public class SQLExecutor {
    * @return A list with the results of the queries
    */
   public static String[] executeSQL(String bounceDef, String interval, String metric,
-      String startDate, String endDate, String context, String income, String age, String gender) {
+      String startDate, String endDate, String context, String income, String age, String gender) throws Exception{
 
     String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
@@ -141,6 +141,7 @@ public class SQLExecutor {
 
     } catch (Exception e) {
       e.printStackTrace();
+      throw e;
     } finally {
       try {
         // Clean up resources

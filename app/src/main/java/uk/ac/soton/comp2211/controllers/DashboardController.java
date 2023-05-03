@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Data;
@@ -298,29 +296,42 @@ public class DashboardController implements Initializable {
 
         for (String metric : metricsSelected) {
 
-          //Retrieves all data values
-          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(),
-              intervalBox.getValue(), metric, start_date.getValue().toString(),
-              end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(),
-              ageBox.getValue(), genderBox.getValue());
+          try {
+            //Retrieves all data values
+            String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(),
+                intervalBox.getValue(), metric, start_date.getValue().toString(),
+                end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(),
+                ageBox.getValue(), genderBox.getValue());
 
-          Series<String, Number> series = new Series<>();
-          series.setName(metric);
+            Series<String, Number> series = new Series<>();
+            series.setName(metric);
 
-          //Adds the data values into a series
-          for (String value : values) {
-            String parts[] = value.split("\\t");
-            Data<String, Number> data = new Data<>(parts[0], Double.parseDouble(parts[1]));
-            series.getData().add(data);
-          }
-          Platform.runLater(() -> lineGraph.getData().add(series));
+            //Adds the data values into a series
+            for (String value : values) {
+              String parts[] = value.split("\\t");
+              Data<String, Number> data = new Data<>(parts[0], Double.parseDouble(parts[1]));
+              series.getData().add(data);
+            }
+            Platform.runLater(() -> lineGraph.getData().add(series));
 
-          for (Data<String, Number> data : series.getData()) {
-            // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-            Platform.runLater(
-                () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                    event -> Tooltip.install(data.getNode(),
-                        new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+            for (Data<String, Number> data : series.getData()) {
+              // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+              Platform.runLater(
+                  () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                      event -> Tooltip.install(data.getNode(),
+                          new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+            }
+          } catch (Exception e) {
+            Platform.runLater(() -> {
+              DialogPane dialog;
+              Alert alert = new Alert(AlertType.ERROR);
+              alert.setTitle("Database query");
+              alert.setContentText(e.getMessage() + "\n\nPlease make sure you uploaded the CSV files");
+              dialog = alert.getDialogPane();
+              dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
+              dialog.getStyleClass().add("dialog-pane");
+              alert.show();
+            });
           }
         }
       } else {
@@ -341,26 +352,39 @@ public class DashboardController implements Initializable {
         Series<String, Number> series = new Series<>();
         series.setName(changedMetric);
 
-        String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(),
-            intervalBox.getValue(), changedMetric, start_date.getValue().toString(),
-            end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(),
-            ageBox.getValue(), genderBox.getValue());
+        try {
+          String[] values = SQLExecutor.executeSQL(bounceDefinition.getValue(),
+              intervalBox.getValue(), changedMetric, start_date.getValue().toString(),
+              end_date.getValue().toString(), contextBox.getValue(), incomeBox.getValue(),
+              ageBox.getValue(), genderBox.getValue());
 
-        for (String value : values) {
-          String parts[] = value.split("\\t");
-          Data<String, Number> data = new Data<>(parts[0], Double.parseDouble(parts[1]));
-          series.getData().add(data);
-        }
+          for (String value : values) {
+            String parts[] = value.split("\\t");
+            Data<String, Number> data = new Data<>(parts[0], Double.parseDouble(parts[1]));
+            series.getData().add(data);
+          }
 
-        // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-        Platform.runLater(() -> lineGraph.getData().add(series));
-
-        for (Data<String, Number> data : series.getData()) {
           // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-          Platform.runLater(
-              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                  event -> Tooltip.install(data.getNode(),
-                      new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+          Platform.runLater(() -> lineGraph.getData().add(series));
+
+          for (Data<String, Number> data : series.getData()) {
+            // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+            Platform.runLater(
+                () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                    event -> Tooltip.install(data.getNode(),
+                        new Tooltip(data.getXValue() + ", " + data.getYValue().toString()))));
+          }
+        } catch (Exception e) {
+          Platform.runLater(() -> {
+            DialogPane dialog;
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Database query");
+            alert.setContentText(e.getMessage() + "\n\nPlease make sure you uploaded the CSV files");
+            dialog = alert.getDialogPane();
+            dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
+            dialog.getStyleClass().add("dialog-pane");
+            alert.show();
+          });
         }
       }
 
@@ -371,7 +395,7 @@ public class DashboardController implements Initializable {
       });
     }).start();
   }
-  
+
   private void setUIDisable(Boolean bool) {
     allMetrics.forEach(c -> c.setDisable(bool));
     start_date.setDisable(bool);
@@ -383,9 +407,13 @@ public class DashboardController implements Initializable {
     ageBox.setDisable(bool);
     genderBox.setDisable(bool);
     snapshotButton.setDisable(bool);
-    newGraph.setDisable(bool);
     costBut.setDisable(bool);
-    backButton.setDisable(bool);
+
+    //these buttons aren't available on the second graph screen
+    if (backButton != null && newGraph != null) {
+      backButton.setDisable(bool);
+      newGraph.setDisable(bool);
+    }
   }
 
   @FXML
