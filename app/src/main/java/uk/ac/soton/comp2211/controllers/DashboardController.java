@@ -19,11 +19,13 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import uk.ac.soton.comp2211.App;
 import uk.ac.soton.comp2211.logic.SQLExecutor;
 import uk.ac.soton.comp2211.utility.SettingsManager;
 import javafx.embed.swing.SwingFXUtils;
@@ -435,7 +437,9 @@ public class DashboardController implements Initializable {
       root1.getStyleClass().add("menu-background");
       SettingsManager.setTheme(root1);
       Stage stage = new Stage();
-      stage.setTitle("Line Graph");
+      Image image = new Image(App.class.getResource("/img/logo1.JPG").toExternalForm());
+      stage.getIcons().add(image);
+      stage.setTitle("Ad Auction Dashboard");
       stage.setScene(new Scene(root1));
       stage.show();
     } catch (Exception e) {
@@ -450,7 +454,9 @@ public class DashboardController implements Initializable {
       root1.getStyleClass().add("menu-background");
       SettingsManager.setTheme(root1);
       Stage stage = new Stage();
-      stage.setTitle("Line Graph");
+      Image image = new Image(App.class.getResource("/img/logo1.JPG").toExternalForm());
+      stage.getIcons().add(image);
+      stage.setTitle("Ad Auction Dashboard");
       stage.setResizable(false);
       stage.setScene(new Scene(root1));
       stage.show();

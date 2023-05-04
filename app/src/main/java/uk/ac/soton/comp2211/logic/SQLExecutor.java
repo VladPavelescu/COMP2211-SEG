@@ -104,7 +104,8 @@ public class SQLExecutor {
    * @return A list with the results of the queries
    */
   public static String[] executeSQL(String bounceDef, String interval, String metric,
-      String startDate, String endDate, String context, String income, String age, String gender) throws Exception{
+      String startDate, String endDate, String context, String income, String age, String gender)
+      throws Exception {
 
     String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
@@ -163,7 +164,7 @@ public class SQLExecutor {
     return resultList.toArray(new String[0]);
   }
 
-  public static Integer getMaxClickCost() {
+  public static Integer getMaxClickCost() throws Exception {
     String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
     List<String> resultList = new ArrayList<>();
@@ -189,6 +190,7 @@ public class SQLExecutor {
 
     } catch (Exception e) {
       e.printStackTrace();
+      throw e;
     } finally {
       try {
         // Clean up resources
@@ -209,7 +211,7 @@ public class SQLExecutor {
     return maxValue;
   }
 
-  public static String[] getHistogramData(String lowerBound, String upperBound) {
+  public static String[] getHistogramData(String lowerBound, String upperBound) throws Exception {
     String currentPath = "/" + System.getProperty("user.dir") + "/logDatabase.db";
     String jdbcUrl = "jdbc:sqlite:" + Utility.cleanURL(currentPath);
     List<String> resultList = new ArrayList<>();
@@ -217,8 +219,6 @@ public class SQLExecutor {
     Connection connection = null;
     Statement statement = null;
     ResultSet resultSet = null;
-
-    int maxValue = getMaxClickCost();
 
     try {
       // Load the SQLite JDBC driver
@@ -246,6 +246,7 @@ public class SQLExecutor {
 
     } catch (Exception e) {
       e.printStackTrace();
+      throw e;
     } finally {
       try {
         // Clean up resources

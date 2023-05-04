@@ -10,6 +10,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
@@ -34,50 +37,63 @@ public class HistogramController implements Initializable {
 
   private void loadData() {
     new Thread(() -> {
-      Integer maxValue = SQLExecutor.getMaxClickCost();
+      try {
+        Integer maxValue = SQLExecutor.getMaxClickCost();
 
-      //Make maxValue be an even number
-      if (maxValue % 2 == 1) {
-        maxValue++;
-      }
+        //Make maxValue be an even number
+        if (maxValue % 2 == 1) {
+          maxValue++;
+        }
 
-      ArrayList<Integer> numberRanges = new ArrayList<>();
-      for (int i = 0; i <= maxValue; i++) {
-        numberRanges.add(i);
-      }
-      Integer lowerBound = 0;
-      Integer upperBound = 1;
+        ArrayList<Integer> numberRanges = new ArrayList<>();
+        for (int i = 0; i <= maxValue; i++) {
+          numberRanges.add(i);
+        }
+        Integer lowerBound = 0;
+        Integer upperBound = 1;
 
-      Series<String, Number> series = new Series<>();
-      series.setName("Click cost");
+        Series<String, Number> series = new Series<>();
+        series.setName("Click cost");
 
-      while (upperBound < (numberRanges.size())) {
-        String[] values = SQLExecutor.getHistogramData(lowerBound.toString(),
-            upperBound.toString());
-        int dataValue = Integer.parseInt(values[0].strip());
-        String label = String.valueOf(dataValue);
-        StackPane block = new StackPane();
-        block.getChildren().add(new Rectangle(20, 20, Color.TRANSPARENT));
-        Label labelNode = new Label(label);
-        labelNode.setTranslateY(-10); // move the label up by 5 pixels
-        labelNode.setFont(new Font(6)); // set the font size to 12 pixels
-        block.getChildren().add(labelNode);
-        block.setPrefSize(20, 40);
-        Data<String, Number> data = new Data<>(lowerBound + "-" + upperBound, dataValue);
-        data.setNode(block);
-        series.getData().add(data);
-        lowerBound++;
-        upperBound++;
-      }
+        while (upperBound < (numberRanges.size())) {
+          String[] values = SQLExecutor.getHistogramData(lowerBound.toString(),
+              upperBound.toString());
+          int dataValue = Integer.parseInt(values[0].strip());
+          String label = String.valueOf(dataValue);
+          StackPane block = new StackPane();
+          block.getChildren().add(new Rectangle(20, 20, Color.TRANSPARENT));
+          Label labelNode = new Label(label);
+          labelNode.setTranslateY(-10); // move the label up by 5 pixels
+          labelNode.setFont(new Font(6)); // set the font size to 12 pixels
+          block.getChildren().add(labelNode);
+          block.setPrefSize(20, 40);
+          Data<String, Number> data = new Data<>(lowerBound + "-" + upperBound, dataValue);
+          data.setNode(block);
+          series.getData().add(data);
+          lowerBound++;
+          upperBound++;
+        }
 
-      Platform.runLater(() -> costHistogram.getData().add(series));
+        Platform.runLater(() -> costHistogram.getData().add(series));
 
-      for (Data<String, Number> data : series.getData()) {
-        // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
-        Platform.runLater(
-            () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
-                event -> Tooltip.install(data.getNode(),
-                    new Tooltip(data.getYValue().toString()))));
+        for (Data<String, Number> data : series.getData()) {
+          // Platform.runLater() queues up tasks on the Application thread (GUI stuff)
+          Platform.runLater(
+              () -> data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
+                  event -> Tooltip.install(data.getNode(),
+                      new Tooltip(data.getYValue().toString()))));
+        }
+      } catch (Exception e) {
+        Platform.runLater(() -> {
+          DialogPane dialog;
+          Alert alert = new Alert(AlertType.ERROR);
+          alert.setTitle("Database query");
+          alert.setContentText(e.getMessage() + "\n\nPlease make sure you uploaded the CSV files");
+          dialog = alert.getDialogPane();
+          dialog.getStylesheets().add(getClass().getResource("/css/alertPane.css").toString());
+          dialog.getStyleClass().add("dialog-pane");
+          alert.show();
+        });
       }
     }).start();
   }

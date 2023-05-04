@@ -1,10 +1,8 @@
-import com.sun.source.tree.SwitchTree;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import uk.ac.soton.comp2211.logic.SQLGenerator;
 import uk.ac.soton.comp2211.logic.Switcher;
-import uk.ac.soton.comp2211.utility.Utility;
 
 import java.io.File;
 import java.io.IOException;
